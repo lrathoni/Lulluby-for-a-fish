@@ -1,11 +1,11 @@
 {
   "dependencies": {
     "com.imac.mptunity": {
-      "version": "https://github.com/piptouque/test_libopenmpt_unity.git#main",
+      "version": "https://github.com/piptouque/MptUnity.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "c53eca5d46fd35778640938b92bb4855361b19ea"
+      "hash": "50fa26b0b5f651e05b0ff51ffc7a84ee199f60e7"
     },
     "com.unity.collab-proxy": {
       "version": "1.2.16",
