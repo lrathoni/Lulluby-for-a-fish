@@ -88,9 +88,9 @@
 *.tar               binary  filter=lfs diff=lfs merge=lfs
 *.zip               binary  filter=lfs diff=lfs merge=lfs
 # Compiled Dynamic Library  filter=lfs 
-*.dll               binary  filter=lfs diff=lfs merge=lfs
-*.pdb               binary  filter=lfs diff=lfs merge=lfs
-*.so                binary  filter=lfs diff=lfs merge=lfs
+*.dll               binary 
+*.pdb               binary
+*.so                binary
 # Fonts
 *.otf               binary  filter=lfs diff=lfs merge=lfs
 *.ttf               binary  filter=lfs diff=lfs merge=lfs
