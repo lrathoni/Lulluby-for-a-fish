@@ -1,4 +1,7 @@
-﻿namespace MptUnity.Audio
+﻿
+using MptUnity.Audio;
+
+namespace MptUnity.Utility
 {
     public static class OpenMptUtility
     {
@@ -6,13 +9,13 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns>The module extension at path if found, null on failure</returns>
-        public static OpenMpt.ModuleExt LoadModuleExt(string path)
+        /// <param name="data"></param>
+        /// <returns>The module extension on success, null on failure</returns>
+        public static OpenMpt.ModuleExt LoadModuleExt(byte[] data)
         {
             try
             {
-                var moduleExt = new OpenMpt.ModuleExt(path);
+                var moduleExt = new OpenMpt.ModuleExt(data);
                 // set render parameters
                 // Volume ramping to avoid clicking.
                 moduleExt.GetModule().SetRenderParam(
