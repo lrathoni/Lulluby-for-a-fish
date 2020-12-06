@@ -8,9 +8,9 @@ namespace MptUnity.Audio.Behaviour
         
         #region AbstractJukebox resolution
 
-        protected override OpenMptMusic CreateMusic(string path)
+        protected override OpenMptMusic CreateMusic(byte[] data)
         {
-            return new OpenMptMusic(path);
+            return new OpenMptMusic(data);
         }
 
         #endregion
