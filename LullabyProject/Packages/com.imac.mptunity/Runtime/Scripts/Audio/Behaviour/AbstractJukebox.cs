@@ -5,23 +5,24 @@ using UnityEngine.Events;
 
 namespace MptUnity.Audio.Behaviour
 {
-    using AudioFile = UnityEngine.Object;
-    
+    using MusicFile = UnityEngine.TextAsset;
+
     public abstract class AbstractJukebox<TMusic> : UnityEngine.MonoBehaviour, IJukebox
         where TMusic : IMusic
     {
-        #region Serialised 
+        #region Serialised
 
-        
 
-        public AudioFile[] audioFiles;
-        
+
+        public MusicFile[] files;
+
         public bool shouldLoop;
+
         // Seconds to wait for the notes to die before completely stopping the playback, section.
         public float dieTimeSeconds;
-        
+
         #endregion
-        
+
 
 
         #region Life-cycle
@@ -29,18 +30,18 @@ namespace MptUnity.Audio.Behaviour
         protected AbstractJukebox()
         {
             m_events = new Events();
-            
+
             m_musicList = new List<TMusic>();
-            
+
             m_currentMusicIndex = -1;
-            
+
         }
 
         #endregion
-        
+
         #region Unity MonoBehaviour event functions
-        
-        
+
+
         void Awake()
         {
             m_source = GetComponent<UnityEngine.AudioSource>();
@@ -53,19 +54,18 @@ namespace MptUnity.Audio.Behaviour
             m_source.Stop();
 
             m_sampleRate = MusicConfig.GetSampleRate();
+
         }
-        
+
         void Start()
         {
             // We have no insurance that the manager will be ready if we try to load the file
             // in Awake, so we do it in Start instead.
             // This however requires that we check whether the player is ready
             // before calling Restart, Resume, Pause or Stop.
-            foreach (var audioFile in audioFiles)
+            foreach (var musicFile in files)
             {
-                string path = UnityEditor.AssetDatabase.GetAssetPath(audioFile);
-
-                Load(path);
+                Load(musicFile);
             }
 
             if (m_musicList.Count > 0)
@@ -102,11 +102,11 @@ namespace MptUnity.Audio.Behaviour
         }
 
         #endregion
-        
-        
+
+
         #region IPlayable
 
-        
+
 
         public bool IsPaused()
         {
@@ -164,29 +164,29 @@ namespace MptUnity.Audio.Behaviour
         void SetPlaybackState(AudioPlaybackState state)
         {
             UnityEngine.Assertions.Assert.IsTrue(IsReady());
-            
+
             SetStreamState(state, m_state);
             m_state = state;
             m_events.playbackChangeEvent.Invoke(m_state);
         }
 
-    
+
         public AudioPlaybackState GetPlaybackState()
         {
             return m_state;
         }
-        
+
         public void Unload()
         {
             for (int musicIndex = 0; musicIndex < GetLoadedNumber(); ++musicIndex)
             {
-                UnloadOne(musicIndex);                 
+                UnloadOne(musicIndex);
             }
         }
 
 
         #endregion
-        
+
         #region IMusicPlayer implementation
 
         public double GetPlayingTempo()
@@ -222,7 +222,7 @@ namespace MptUnity.Audio.Behaviour
                 return GetCurrentMusic().NumberSections;
             }
         }
-        
+
         public string GetTitle()
         {
             UnityEngine.Assertions.Assert.IsTrue(IsReady());
@@ -258,7 +258,7 @@ namespace MptUnity.Audio.Behaviour
             GetCurrentMusic().MuteSection(sectionIndex, mute);
             m_events.muteSectionChangeEvent.Invoke(
                 GetCurrentMusic().GetSection(sectionIndex), mute
-                );
+            );
         }
 
         public bool IsSectionMuted(int sectionIndex)
@@ -266,12 +266,12 @@ namespace MptUnity.Audio.Behaviour
             UnityEngine.Assertions.Assert.IsTrue(IsReady());
             return GetCurrentMusic().IsSectionMuted(sectionIndex);
         }
-        
+
         public void StopSectionNotes(int sectionIndex)
         {
             UnityEngine.Assertions.Assert.IsTrue(IsReady());
             GetCurrentMusic().StopSectionNotes(sectionIndex);
-            
+
         }
 
         public void SetRepeatCount(int count)
@@ -298,7 +298,7 @@ namespace MptUnity.Audio.Behaviour
             {
                 GetCurrentMusic().Reset();
             }
-            
+
             // Remember playback state.
             // So that GetCurrentMusic gets us the new music.
             m_currentMusicIndex = musicIndex;
@@ -308,18 +308,18 @@ namespace MptUnity.Audio.Behaviour
             {
                 GetCurrentMusic().SetRepeatCount(-1);
             }
-            
+
 
             // an Invoke a day keeps the bugs away!!
             m_events.musicSwitchEvent.Invoke(GetCurrentMusic());
-            
+
         }
 
         public int GetLoadedNumber()
         {
             return m_musicList.Count;
         }
-        
+
         public int GetCurrentMusicIndex()
         {
             return m_currentMusicIndex;
@@ -330,34 +330,36 @@ namespace MptUnity.Audio.Behaviour
             return (m_currentMusicIndex >= 0)
                    && (m_currentMusicIndex < GetLoadedNumber());
         }
+
         #endregion // IMusicPlayer implementation
 
 
-        #region Event handling 
+        #region Event handling
+
         protected class Events
         {
-            public readonly MusicLoadEvent      musicLoadEvent;
-            public readonly MusicSwitchEvent    musicSwitchEvent;
+            public readonly MusicLoadEvent musicLoadEvent;
+            public readonly MusicSwitchEvent musicSwitchEvent;
             public readonly PlaybackChangeEvent playbackChangeEvent;
-            public readonly BpmChangeEvent      bpmChangeEvent;
+            public readonly BpmChangeEvent bpmChangeEvent;
             public readonly MuteSectionChangeEvent muteSectionChangeEvent;
-            
+
             public Events()
             {
-                musicLoadEvent       = new MusicLoadEvent();
-                musicSwitchEvent     = new MusicSwitchEvent();
-                playbackChangeEvent  = new PlaybackChangeEvent();
-                bpmChangeEvent       = new BpmChangeEvent();
-                muteSectionChangeEvent  = new MuteSectionChangeEvent();
+                musicLoadEvent = new MusicLoadEvent();
+                musicSwitchEvent = new MusicSwitchEvent();
+                playbackChangeEvent = new PlaybackChangeEvent();
+                bpmChangeEvent = new BpmChangeEvent();
+                muteSectionChangeEvent = new MuteSectionChangeEvent();
             }
-            
+
         }
 
         public void AddMusicLoadListener(UnityAction<IMusic, bool> onMusicLoad)
         {
             m_events.musicLoadEvent.AddListener(onMusicLoad);
         }
-        
+
         public void AddMusicSwitchListener(UnityAction<IMusic> onMusicSwitch)
         {
             m_events.musicSwitchEvent.AddListener(onMusicSwitch);
@@ -397,7 +399,7 @@ namespace MptUnity.Audio.Behaviour
         {
             m_events.musicLoadEvent.RemoveListener(onMusicLoad);
         }
-        
+
         public void RemoveMusicSwitchListener(UnityAction<IMusic> onMusicSwitch)
         {
             m_events.musicSwitchEvent.RemoveListener(onMusicSwitch);
@@ -405,10 +407,10 @@ namespace MptUnity.Audio.Behaviour
 
         #endregion // Event Handling
 
-        
+
         #region To resolve
 
-        
+
 
         /// <summary>
         /// Update the internal streaming according to playback state.
@@ -419,39 +421,40 @@ namespace MptUnity.Audio.Behaviour
         {
             switch (updated)
             {
-               case AudioPlaybackState.ePaused:
-                   m_source.Pause();
-                   break;
-               case AudioPlaybackState.ePlaying:
-                   if (previous == AudioPlaybackState.eStopped)
-                   {
-                       m_source.Play();
-                   }
-                   else
-                   {
-                       m_source.UnPause();
-                   }
-                   break;
-               case AudioPlaybackState.eStopped:
-                   m_source.Stop();
-                   break;
+            case AudioPlaybackState.ePaused:
+                m_source.Pause();
+                break;
+            case AudioPlaybackState.ePlaying:
+                if (previous == AudioPlaybackState.eStopped)
+                {
+                    m_source.Play();
+                }
+                else
+                {
+                    m_source.UnPause();
+                }
+
+                break;
+            case AudioPlaybackState.eStopped:
+                m_source.Stop();
+                break;
             }
         }
-        
-        protected abstract TMusic CreateMusic(string path);
 
-        public abstract void OnAudioFilterRead(float[] data, int channels);
+        protected abstract TMusic CreateMusic(byte[] data);
+
+    public abstract void OnAudioFilterRead(float[] data, int channels);
 
         #endregion
 
         #region Util 
         
         
-        void Load(string path)
+        void Load(MusicFile musicFile)
         {
             try
             {
-                TMusic music = CreateMusic(path);
+                TMusic music = CreateMusic(musicFile.bytes);
                 m_musicList.Add(music);
                 // time to notify the gang.
                 m_events.musicLoadEvent.Invoke(music, true);
@@ -480,15 +483,8 @@ namespace MptUnity.Audio.Behaviour
         }
 
         #endregion
-        
         #region Protected data 
 
-        readonly List<TMusic> m_musicList;
-        int m_currentMusicIndex;
-
-        AudioPlaybackState m_state;
-        
-        UnityEngine.AudioSource m_source;
             
         protected readonly Events m_events;
 
@@ -496,6 +492,16 @@ namespace MptUnity.Audio.Behaviour
 
         protected int m_sampleRate;
 
+        #endregion
+
+        #region Private data
+
+        readonly List<TMusic> m_musicList;
+        int m_currentMusicIndex;
+
+        AudioPlaybackState m_state;
+        
+        UnityEngine.AudioSource m_source;
 
         #endregion
 

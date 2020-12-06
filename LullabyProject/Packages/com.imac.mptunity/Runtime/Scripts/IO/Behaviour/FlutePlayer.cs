@@ -39,7 +39,7 @@ namespace MptUnity.IO.Behaviour
         public int[] tones;
 
         [Range(0L, 1L)] 
-        public double volume;
+        public double volume = 1L;
         
         #endregion
 
@@ -93,40 +93,34 @@ namespace MptUnity.IO.Behaviour
 
         int StopNote(int toneIndex)
         {
-            int voiceIndex = m_tonesToVoiceIndices[toneIndex];
-            int voice = m_playingVoices[voiceIndex];
-            
-            if (voice != -1)
+            int voiceIndex = m_toneToVoiceIndices[toneIndex];
+
+            if (voiceIndex == -1)
             {
-                m_instrumentSource.StopNote(voice);
-                // Notifying the listeners that the note just stopped.
-                m_events.playerNoteStopEvent.Invoke(toneIndex, m_instrumentSource.GetNote(voice));
+                return -1;
             }
-            m_playingVoices[voiceIndex] = -1;
-            m_playingTimes[voiceIndex] = 0;
-            
-            return voice;
+            Debug.Log($"toneIndex: {toneIndex}, voiceIndex: {voiceIndex}");
+            return StopVoice(voiceIndex);
         }
 
         int PlayNote(int toneIndex)
         {
             int voiceIndex = ChooseVoiceIndex(toneIndex);
+            Debug.Log($"toneIndex: {toneIndex}, voiceIndex: {voiceIndex}");
             if (voiceIndex == -1)
             {
                 // invalid, we ignore this note.
                 return -1;
             }
-            m_tonesToVoiceIndices[toneIndex] = voiceIndex; 
             
             int tone = tones[toneIndex];
             int previousVoice = m_playingVoices[voiceIndex];
             
-            // We don't want to multiple notes on the same key.
-            if (previousVoice != -1)
-            {
-                StopNote(toneIndex);
-            }
+            // We can't have multiple tones playing in the same voice.
+            StopVoice(voiceIndex);
             //
+            m_toneToVoiceIndices[toneIndex] = voiceIndex;
+            m_voiceToToneIndices[voiceIndex] = toneIndex;
             int voice = m_instrumentSource.PlayNote(new MusicalNote(tone, volume));
 
             m_playingVoices[voiceIndex] = voice;
@@ -144,6 +138,32 @@ namespace MptUnity.IO.Behaviour
             
             return voice;
         }
+
+        int StopVoice(int voiceIndex)
+        {
+            int voice = m_playingVoices[voiceIndex];
+            int toneIndex = m_voiceToToneIndices[voiceIndex];
+
+            if (toneIndex == -1)
+            {
+                return -1;
+            }
+
+            if (voice != -1)
+            {
+                m_instrumentSource.StopNote(voice);
+                m_playingVoices[voiceIndex] = -1;
+                m_playingTimes[voiceIndex] = 0;
+                m_voiceToToneIndices[voiceIndex] = -1;
+                m_toneToVoiceIndices[toneIndex]  = -1;
+                // Notifying the listeners that the note just stopped.
+                m_events.playerNoteStopEvent.Invoke(toneIndex, m_instrumentSource.GetNote(voice));
+            }
+
+            return voice;
+        }
+        
+        
         #endregion
 
         #region Private utility
@@ -185,10 +205,12 @@ namespace MptUnity.IO.Behaviour
             m_playingTimes = new int[numberVoices];
             m_playingTimes.Fill(0);
             
-            m_tonesToVoiceIndices = new Dictionary<int, int>(tones.Length);
-            for (int toneIndex = 0; toneIndex < tones.Length; ++toneIndex)
+            m_toneToVoiceIndices = new Dictionary<int, int>(tones.Length);
+            m_voiceToToneIndices  = new Dictionary<int, int>(tones.Length);
+            for (int i = 0; i < tones.Length; ++i)
             {
-                m_tonesToVoiceIndices.Add(toneIndex, 0);
+                m_toneToVoiceIndices.Add(i, -1);
+                m_voiceToToneIndices.Add(i, -1);
             }
         }
         void SetupAudio()
@@ -241,7 +263,8 @@ namespace MptUnity.IO.Behaviour
         #region Private data 
 
         IInstrumentSource m_instrumentSource;
-        Dictionary<int, int> m_tonesToVoiceIndices;
+        Dictionary<int, int> m_toneToVoiceIndices;
+        Dictionary<int, int> m_voiceToToneIndices;
         int[] m_playingVoices;
         int[] m_playingTimes;
 

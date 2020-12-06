@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace MptUnity.Audio.Behaviour
 {
-    using InstrumentFile = UnityEngine.Object;
+    using InstrumentFile = UnityEngine.TextAsset;
 
     public abstract class AbstractInstrumentSource
         : UnityEngine.MonoBehaviour, IInstrumentSource
@@ -31,8 +31,7 @@ namespace MptUnity.Audio.Behaviour
 
             m_sampleRate = MusicConfig.GetSampleRate();
 
-            string path = UnityEditor.AssetDatabase.GetAssetPath(file);
-            Load(path, startingNumberVoices);
+            Load(file, startingNumberVoices);
         }
 
         void Update()
@@ -103,7 +102,7 @@ namespace MptUnity.Audio.Behaviour
 
         #region To resolve
 
-        protected abstract IInstrument CreateInstrument(string path, int numberVoices);
+        protected abstract IInstrument CreateInstrument(byte[] data, int numberVoices);
 
         public abstract void OnAudioFilterRead(float[] data, int channels);
         
@@ -145,11 +144,11 @@ namespace MptUnity.Audio.Behaviour
         #endregion
 
         #region Utility
-        void Load(string path, int numberVoices)
+        void Load(InstrumentFile instrumentFile, int numberVoices)
         {
             try
             {
-                m_instrument = CreateInstrument(path, numberVoices);
+                m_instrument = CreateInstrument(instrumentFile.bytes, numberVoices);
                 m_isReady = true;
                 // Play it continuously for now.
                 // todo
@@ -169,20 +168,22 @@ namespace MptUnity.Audio.Behaviour
         }
 
         #endregion
+        #region Protected data
 
-        #region Private data
-
+        
         protected IInstrument m_instrument;
+        
+        protected int m_sampleRate;
 
         protected readonly Events m_events;
 
-        bool m_isReady;
+        #endregion
+        #region Private data
 
         UnityEngine.AudioClip m_clip;
         UnityEngine.AudioSource m_source;
-
-        protected int m_sampleRate;
-
+        
+        bool m_isReady;
 
         #endregion
     }

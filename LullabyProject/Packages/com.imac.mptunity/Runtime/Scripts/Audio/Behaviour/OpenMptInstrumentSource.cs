@@ -9,9 +9,9 @@ namespace MptUnity.Audio.Behaviour
 
         #region AbstractInstrumentSource resolution
 
-        protected override IInstrument CreateInstrument(string path, int a_numberVoices)
+        protected override IInstrument CreateInstrument(byte[] data, int a_numberVoices)
         {
-            return new OpenMptInstrument(path, a_numberVoices);
+            return new OpenMptInstrument(data, a_numberVoices);
         }
 
         #endregion
