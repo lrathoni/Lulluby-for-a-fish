@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Packages/com.imac.mptunity/Assets/Scenes/DebugRoom_OpenMPT.unity
+    guid: 2a860f5035334204ebe0a9e041fe9884
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 62b580b19e22a7e43b2583ad19ee3f53
+  - enabled: 1
+    path: Assets/Scenes/testLevel/testLevel.unity
+    guid: d1ee68c12a6a2e94cbd6ff8d90267931
   m_configObjects: {}

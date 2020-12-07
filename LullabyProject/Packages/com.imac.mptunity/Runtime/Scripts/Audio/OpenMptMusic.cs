@@ -8,13 +8,13 @@ namespace MptUnity.Audio
         #region Life-cycle
 
         
-        public OpenMptMusic(string path) 
+        public OpenMptMusic(byte[] data) 
         {
             // Load file and get handle to music.
-            m_moduleExt =  OpenMptUtility.LoadModuleExt(path);
+            m_moduleExt =  OpenMptUtility.LoadModuleExt(data);
             if (m_moduleExt == null)
             {
-                throw new System.ArgumentException("Error when loading MOD music at path: " + path);
+                throw new System.ArgumentException("Failed to load MOD music.");
             }
             // parse the info (number of channels etc.) from the message.
             m_info = MusicInfoParser.ParseMusicInfo(m_moduleExt);
