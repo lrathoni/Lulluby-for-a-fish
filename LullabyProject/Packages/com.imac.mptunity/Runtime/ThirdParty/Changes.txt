@@ -1,4 +1,0 @@
-
-** fullserializer:
-- Removed Converters/Unity/Keyframe_DirectConverter.cs in order to remove a deprecation warning.
-- Removed Aot/Editor/ in order to build.
