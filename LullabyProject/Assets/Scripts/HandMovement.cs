@@ -19,6 +19,9 @@ public class HandMovement : MonoBehaviour
    public Transform cameraTransform;
 
    private float distanceFromCamera = 2f;
+
+   private float resetTime = 0f;
+   private bool isReset = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,39 +38,29 @@ public class HandMovement : MonoBehaviour
             if(Input.GetKeyDown(keys[keyIndex]))
             {
                 distanceFromCamera = positionNote[keyIndex];
+                isReset = true;
+                resetTime = 0;
             }
             
         }
 
         Vector3 resultingPosition = cameraTransform.position + cameraTransform.forward * 0.1f + cameraTransform.right * distanceFromCamera;
         transform.position = resultingPosition;
-        
-        //hand.transform.position = transform.right * positionHand.x + transform.forward * positionHand.z;
-        /*
-        if(Input.GetKeyDown(KeyCode.Y))
-        {
-            //hand.transform.position = new Vector3(0.7f, -0.003f, 0.15f);
-            hand.transform.position = new Vector3(0.7f, 1.7f, 0.118f);
-            //Debug.Log("movement hand");
 
-        }
-        if(Input.GetKeyDown(KeyCode.Y))
+        if(isReset)
         {
-           hand.transform.position = new Vector3(0.7f, 1.7f, 0.118f); 
+            if(resetTime <= 3)
+            {
+                resetTime += Time.deltaTime;
+            }
+            if(resetTime>3)
+            {
+                distanceFromCamera = 2f;
+                isReset = false;
+                resetTime = 0;
+            }
         }
-        if(Input.GetKeyDown(KeyCode.Y))
-        {
-           hand.transform.position = new Vector3(0.7f, 1.7f, 0.118f); 
-        }
-        if(Input.GetKeyDown(KeyCode.Y))
-        {
-           hand.transform.position = new Vector3(0.7f, 1.7f, 0.118f); 
-        }
-        if(Input.GetKeyDown(KeyCode.Y))
-        {
-           hand.transform.position = new Vector3(0.7f, 1.7f, 0.118f); 
-        }
-    */
+        
     }
 
     
