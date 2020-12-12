@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 6408170226229343286}
   - component: {fileID: 6408170226229343287}
   m_Layer: 0
-  m_Name: Player (1)
+  m_Name: OldFisherman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -399,7 +399,7 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
+  m_Height: 1.8
   m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
