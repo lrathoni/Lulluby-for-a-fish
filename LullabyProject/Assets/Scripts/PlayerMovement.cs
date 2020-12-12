@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
 
     public CharacterController controller;
-    public float speed = 5f;
+    public float speed = 1.5f;
 
     void Update()
     {
