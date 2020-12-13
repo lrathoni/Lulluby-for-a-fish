@@ -1,62 +1,99 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 using UnityEngine.Assertions;
+
+using MptUnity.IO.Behaviour;
 
 
 public class HandMovement : MonoBehaviour
 {
 
-   public GameObject hand;
-   public KeyCode[] keys;
-   private float[] positionNote = {0.9f, 0.8f, 0.7f, 0.6f, 0.5f};
+    #region Serialised data
 
-   public Transform cameraTransform;
+    public float[] positionNote = {0.9f, 0.8f, 0.7f, 0.6f, 0.5f};
 
-   private float distanceFromCamera = 2f;
+    public float stopDistanceFromCamera = 1.2F;
+    public float restDistanceFromCamera = 2.0F;
 
-   private float resetTime = 0f;
-   private bool isReset = false;
+    public GameObject flutePlayerObject;
+    
+    #endregion
+    #region Unity Monobehaviour events
+
     // Start is called before the first frame update
     void Start()
     {
-        Assert.IsTrue(keys.Length == positionNote.Length, "The key length must be the same as the different positions of the flute for each note");
+        m_flutePlayer = flutePlayerObject.GetComponent<FlutePlayer>();
+        Assert.IsNotNull(m_flutePlayer);
+
+        m_flutePlayer.AddOnEnterStateListener(OnPlayerEnterState);
+        m_flutePlayer.AddOnReceiveNoteCommandListener(OnPlayerReceiveNoteCommand);
+        
+        Camera cam = Camera.main;
+        Assert.IsNotNull(cam);
+        m_cameraTransform = cam.transform;
+        // setting this transform as the child of the camera's
+        // so that the movement is the same regardless of camera angle
+        gameObject.transform.parent = m_cameraTransform;
+        // Move it to rest position
+        MoveHand(restDistanceFromCamera);
     }
 
-
-    // Update is called once per frame
-    void Update()
+    void OnDestroy()
     {
-        
-        for (int keyIndex = 0; keyIndex < keys.Length; ++keyIndex)
-        {
-            if(Input.GetKeyDown(keys[keyIndex]))
-            {
-                distanceFromCamera = positionNote[keyIndex];
-                isReset = true;
-                resetTime = 0;
-            }
-            
-        }
+        m_flutePlayer.RemoveOnEnterStateListener(OnPlayerEnterState);
+        m_flutePlayer.RemoveOnReceiveNoteCommandListener(OnPlayerReceiveNoteCommand);
+    }
+    
+    #endregion
+    #region Movement
 
-        Vector3 resultingPosition = cameraTransform.position + cameraTransform.forward * 0.1f + cameraTransform.right * distanceFromCamera;
+    void MoveHand(float dist)
+    {
+        Vector3 resultingPosition = m_cameraTransform.position 
+                                    + m_cameraTransform.forward * 0.1f 
+                                    + m_cameraTransform.right * dist;
         transform.position = resultingPosition;
+    }
+    
+    #endregion
+    #region Flute event callbacks
 
-        if(isReset) // we need to check here if the note is still playing
+    void OnPlayerEnterState(FlutePlayer.EPlayingState state, FlutePlayer player)
+    {
+        Debug.Log(state.ToString());
+        
+        switch (state)
         {
-            if(resetTime <= 3)
-            {
-                resetTime += Time.deltaTime;
-            }
-            if(resetTime>3)
-            {
-                distanceFromCamera = 2f;
-                isReset = false;
-                resetTime = 0;
-            }
+           case FlutePlayer.EPlayingState.eStopped: 
+                MoveHand(stopDistanceFromCamera);
+                break;
+           case FlutePlayer.EPlayingState.eResting:
+                MoveHand(restDistanceFromCamera);
+                break;
         }
         
     }
 
+    void OnPlayerReceiveNoteCommand(FlutePlayer.NoteCommand command)
+    {
+        // todo: we have to start the animation here because
+        // there is no 'Getting ready to play a note' FlutePlayer.EPlayingState yet.
+        switch (command.kind)
+        {
+            case FlutePlayer.NoteCommand.Kind.eStart:
+                MoveHand(positionNote[command.toneIndex]);
+                break;
+        }
+    }
     
+    #endregion
+    #region Private data
+
+    // cached, the both of them.
+    FlutePlayer m_flutePlayer;
+    Transform m_cameraTransform;
+    
+    #endregion
+
 }
