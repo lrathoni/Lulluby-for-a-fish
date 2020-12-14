@@ -17,7 +17,7 @@ public class HandMovement : MonoBehaviour
     public float stopDistanceFromCamera = 1.2F;
     public float restDistanceFromCamera = 2.0F;
 
-    public GameObject flutePlayerObject;
+    public GameObject interfaceObject;
     
     #endregion
     #region Unity Monobehaviour events
@@ -25,7 +25,7 @@ public class HandMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_flutePlayer = flutePlayerObject.GetComponent<FlutePlayer>();
+        m_flutePlayer = interfaceObject.GetComponent<FlutePlayer>();
         Assert.IsNotNull(m_flutePlayer);
 
         m_flutePlayer.AddOnEnterStateListener(OnPlayerEnterState);
