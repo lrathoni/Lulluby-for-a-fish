@@ -6,9 +6,9 @@ using UnityEngine.Assertions;
 using UnityEngine.Events;
 
 using MptUnity.Audio.Behaviour;
-using MusicalNote = MptUnity.Audio.MusicalNote;
+using MptUnity.Audio;
 
-namespace MptUnity.IO.Behaviour
+namespace Behaviour
 {
     /// <summary>
     /// Event which gets called whenever the FlutePlayer starts playing a MusicalNote.
