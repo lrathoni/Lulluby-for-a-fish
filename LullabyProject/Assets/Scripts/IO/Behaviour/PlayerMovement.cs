@@ -4,7 +4,7 @@ using UnityEngine.AI;
 using UnityEngine.Assertions;
 
 
-namespace Behaviour
+namespace IO.Behaviour
 {
     
 [RequireComponent(typeof(NavMeshAgent))]

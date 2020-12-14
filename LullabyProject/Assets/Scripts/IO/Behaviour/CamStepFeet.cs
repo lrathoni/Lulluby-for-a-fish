@@ -5,7 +5,7 @@
 
 using UnityEngine;
 
-namespace Behaviour
+namespace IO.Behaviour
 {
     
 public class CamStepFeet : MonoBehaviour

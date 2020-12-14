@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 504317222373049091}
   m_Layer: 0
   m_Name: UserInterface
-  m_TagString: Untagged
+  m_TagString: UserInterface
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5143993041540502368}
   m_LocalRotation: {x: -0, y: -0.63311976, z: -0, w: 0.77405393}
-  m_LocalPosition: {x: 0.414, y: 0.70000005, z: 0.326}
+  m_LocalPosition: {x: 0.414, y: 0.6, z: 0.326}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3076474757104560138}
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 487a3f7522adf3a44b9ce6a59baa0a66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  positionNote:
+  noteOffsets:
   - 0.9
   - 0.8
   - 0.7
@@ -247,6 +247,7 @@ GameObject:
   - component: {fileID: 6911963932344521612}
   - component: {fileID: 6911963932344521614}
   - component: {fileID: 6911963932344521613}
+  - component: {fileID: 8744466751893484043}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -317,6 +318,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!136 &8744466751893484043
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6911963932344521611}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6911963932584567222
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,7 +501,6 @@ GameObject:
   - component: {fileID: 5702653602756455180}
   - component: {fileID: 1614482913355692103}
   - component: {fileID: 1446057003277994311}
-  - component: {fileID: 3067807029152712483}
   m_Layer: 0
   m_Name: Flute
   m_TagString: Untagged
@@ -619,20 +633,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   file: {fileID: 4900000, guid: 5cdae0dc463c1bb0b9da97071bed33f1, type: 3}
   startingNumberVoices: 2
---- !u!64 &3067807029152712483
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7972827416313533024}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1001 &3259317505257181153
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -794,6 +794,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PanFlute
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 36cc631aa9e1bac4e9720126d34bfafe,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36cc631aa9e1bac4e9720126d34bfafe, type: 3}
