@@ -15,7 +15,7 @@ namespace MptUnity.Test.Audio.Behaviour
         MusicCurrentState m_musicCurrent;
         Renderer m_renderer;
 
-        AudioPlaybackState m_showingState;
+        EAudioPlaybackState m_showingState;
 
         void Start()
         {
@@ -52,11 +52,11 @@ namespace MptUnity.Test.Audio.Behaviour
             }
         }
 
-        void UpdateMat(AudioPlaybackState state)
+        void UpdateMat(EAudioPlaybackState state)
         {
             if (m_showingState != state)
             {
-                m_renderer.material = state == AudioPlaybackState.eStopped ? matStart : matStop;
+                m_renderer.material = state == EAudioPlaybackState.eStopped ? matStart : matStop;
                 m_showingState = state;
             }
         }

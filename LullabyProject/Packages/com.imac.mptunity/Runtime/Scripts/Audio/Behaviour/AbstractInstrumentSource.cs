@@ -53,10 +53,6 @@ namespace MptUnity.Audio.Behaviour
 
         #region IInstrumentSource implementation
 
-        public void StopNote(int voice)
-        {
-            m_instrument.StopNote(voice);
-        }
 
         public int PlayNote(MusicalNote note)
         {
@@ -68,6 +64,21 @@ namespace MptUnity.Audio.Behaviour
             }
 
             return voice;
+        }
+        
+        public bool StopNote(int voice)
+        {
+            return m_instrument.StopNote(voice);
+        }
+
+        public bool CanPlay(MusicalNote note)
+        {
+            return m_instrument.CanPlay(note);
+        }
+
+        public bool CanStop(int voice)
+        {
+            return m_instrument.CanStop(voice);
         }
 
         public MusicalNote GetNote(int voice)

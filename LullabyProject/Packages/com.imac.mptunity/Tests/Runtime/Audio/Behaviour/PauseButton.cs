@@ -45,9 +45,9 @@ namespace MptUnity.Test.Audio.Behaviour
             }
         }
 
-        void UpdateMat(AudioPlaybackState state)
+        void UpdateMat(EAudioPlaybackState state)
         {
-            m_renderer.material = state == AudioPlaybackState.ePaused ? matResume : matPause;
+            m_renderer.material = state == EAudioPlaybackState.ePaused ? matResume : matPause;
         }
     }
 }
