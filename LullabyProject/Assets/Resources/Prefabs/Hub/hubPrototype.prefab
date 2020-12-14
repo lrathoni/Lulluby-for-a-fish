@@ -2552,6 +2552,7 @@ GameObject:
   - component: {fileID: 4424241625267869402}
   - component: {fileID: 3901203126199824244}
   - component: {fileID: 56501809526058367}
+  - component: {fileID: 1989416431104756655}
   m_Layer: 0
   m_Name: River
   m_TagString: Untagged
@@ -2620,6 +2621,22 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &1989416431104756655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2867604929429508300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &2966603412015889526
 GameObject:
   m_ObjectHideFlags: 0

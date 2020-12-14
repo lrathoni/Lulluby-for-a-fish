@@ -18,12 +18,15 @@ public class PlayerMovement : MonoBehaviour
     public Transform cameraTransform;
     
     // Speed according to movement direction.
-    public float speedMultiplier   = 2.0f;
-    public float forwardSpeed      = 1.5f;
+    [Range(0.005f, 0.03f)]
+    public float speedMultiplier   = 0.015f;
+    [Range(0.1f, 1.0f)]
+    public float forwardSpeed      = 1.0f;
+    [Range(0.1f, 1.0f)]
     public float backwardSpeed     = 0.5f;
-    public float lateralSpeed      = 1.0f;
+    [Range(0.1f, 1.0f)]
+    public float lateralSpeed      = 0.3f;
     // 
-    public float stepSize = 0.5f;
 
     public bool IsMoving()
     {
@@ -56,8 +59,7 @@ public class PlayerMovement : MonoBehaviour
         if (IsMoving())
         {
             Vector3 move = cameraTransform.right * lateralDir + cameraTransform.forward * longitudinalDir;
-            m_playerAgent.speed = GetSpeed();
-            m_playerAgent.Move(move * stepSize);
+            m_playerAgent.Move(move * GetSpeed());
         }
         
     }
@@ -74,8 +76,13 @@ public class PlayerMovement : MonoBehaviour
         {
             return 0.0F;
         }
-        float longitudinalSpeed = m_dir.x > 0 ? forwardSpeed : backwardSpeed;
-        return (longitudinalSpeed + lateralSpeed) * (speedMultiplier / m_dir.magnitude);
+        float longSpeed = m_dir.y > 0 
+            ? forwardSpeed 
+            : m_dir.y < 0
+            ? backwardSpeed
+            : 0;
+        float latSpeed = lateralSpeed * Mathf.Abs(m_dir.x);
+        return speedMultiplier * (longSpeed + latSpeed) / m_dir.sqrMagnitude;
     }
     
     NavMeshAgent m_playerAgent;
