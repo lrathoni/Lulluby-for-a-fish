@@ -4,7 +4,9 @@ using UnityEngine.Assertions;
 
 using MptUnity.IO.Behaviour;
 
-
+namespace Behaviour
+{
+    
 public class HandMovement : MonoBehaviour
 {
 
@@ -95,5 +97,7 @@ public class HandMovement : MonoBehaviour
     Transform m_cameraTransform;
     
     #endregion
+
+}
 
 }
