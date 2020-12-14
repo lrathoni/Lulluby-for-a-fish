@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -25,9 +26,17 @@ namespace Behaviour
     /// Event which gets trigger immediately when the FlutePlayer receives a NoteCommand.
     /// Warning: the note may be invalid.
     /// Can be used to animate the Flute.
-    /// First argument is index of the tone, second is the delay before it might be stopped.
+    /// See data available in NoteCommand class for details.
     /// </summary>
-    public class OnPlayerReceiveNoteCommandEvent : UnityEvent<FlutePlayer.NoteCommand> {}
+    public class OnPlayerNoteCommandReceiveEvent : UnityEvent<FlutePlayer.NoteCommand> {}
+    
+    /// <summary>
+    /// Event which gets trigger when the FlutePlayer cancels a NoteCommand.
+    /// The argument is the NoteCommand which was cancelled.
+    /// Can be used to animate the Flute.
+    /// See data available in NoteCommand class for details.
+    /// </summary>
+    public class OnPlayerNoteCommandCancelEvent : UnityEvent<FlutePlayer.NoteCommand> { }
     
     /// <summary>
     ///Can be used to animate the Flute.
@@ -161,9 +170,7 @@ namespace Behaviour
             {
                 if (m_noteCommandQueue[i].ShouldExecute(Time.time))
                 {
-                    var command = m_noteCommandQueue[i];
-                    m_noteCommandQueue.RemoveAt(i);
-                    command.Execute();
+                    i = ExecuteNoteCommand(i);
                 }
                 else
                 {
@@ -186,18 +193,55 @@ namespace Behaviour
 
         void AddNoteCommand(NoteCommand command)
         {
-            // For now only one NoteStart command in the command queue at a time.
-            if (command.kind == NoteCommand.Kind.eStart)
+            m_noteCommandQueue.Add(command);
+            
+            // Sort by expected execution time
+            m_noteCommandQueue.Sort((c1, c2) =>
+                {
+                    float interval = c1.GetExecutionTime() - c2.GetExecutionTime();
+                    if (interval > 0) return 1;
+                    if (interval < 0) return -1;
+                    return 0;
+                }
+            );
+            
+            //Cancel the commands if necessary:
+            // A command should be cancelled if the one which should be executed before
+            // has been issued after the first.
+            int i = 0;
+            while (i < m_noteCommandQueue.Count - 1)
             {
-                m_noteCommandQueue.RemoveAll(noteCommand => noteCommand.kind == NoteCommand.Kind.eStart);
+                var current = m_noteCommandQueue[i];
+                var next = m_noteCommandQueue[i + 1];
+                if (current.ShouldCancel(next))
+                {
+                    m_noteCommandQueue.RemoveAt(i + 1);
+                    m_events.playerNoteCommandCancelEvent.Invoke(next);
+                }
+                else
+                {
+                    ++i;
+                }
             }
 
-            m_noteCommandQueue.Add(command);
-            m_events.playerReceiveNoteCommandEvent.Invoke(command);            
+            m_events.playerNoteCommandReceiveEvent.Invoke(command);            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="commandIndex"></param>
+        /// <returns>Index of the next command note to be processed.</returns>
+        int ExecuteNoteCommand(int commandIndex)
+        {
+            // requires that m_noteCommandQueue be sorted by ascending order of execution time.
+            var command = m_noteCommandQueue[commandIndex];
+            m_noteCommandQueue.RemoveAt(commandIndex);
+            command.Execute();
+            return commandIndex;
         }
 
         #endregion
-
         #region Playing routine
 
         bool StopNoteNow(int toneIndex)
@@ -299,14 +343,16 @@ namespace Behaviour
         {
             public readonly OnPlayerNoteStartEvent playerNoteStartEvent;
             public readonly OnPlayerNoteStopEvent playerNoteStopEvent;
-            public readonly OnPlayerReceiveNoteCommandEvent playerReceiveNoteCommandEvent;
+            public readonly OnPlayerNoteCommandReceiveEvent playerNoteCommandReceiveEvent;
+            public readonly OnPlayerNoteCommandCancelEvent playerNoteCommandCancelEvent;
             public readonly OnPlayerEnterStateEvent playerEnterStateEvent;
 
             public Events()
             {
                 playerNoteStartEvent = new OnPlayerNoteStartEvent();
                 playerNoteStopEvent  = new OnPlayerNoteStopEvent();
-                playerReceiveNoteCommandEvent  = new OnPlayerReceiveNoteCommandEvent();
+                playerNoteCommandReceiveEvent  = new OnPlayerNoteCommandReceiveEvent();
+                playerNoteCommandCancelEvent = new OnPlayerNoteCommandCancelEvent();
                 playerEnterStateEvent = new OnPlayerEnterStateEvent();
             }
         }
@@ -331,14 +377,24 @@ namespace Behaviour
             m_events.playerNoteStopEvent.RemoveListener(onNoteStop);
         }
         
-        public void AddOnReceiveNoteCommandListener(UnityAction<NoteCommand> onNoteCommandReceive)
+        public void AddOnNoteCommandReceiveListener(UnityAction<NoteCommand> onNoteCommandReceive)
         {
-            m_events.playerReceiveNoteCommandEvent.AddListener(onNoteCommandReceive);
+            m_events.playerNoteCommandReceiveEvent.AddListener(onNoteCommandReceive);
         }
 
-        public void RemoveOnReceiveNoteCommandListener(UnityAction<NoteCommand> onNoteCommandReceive)
+        public void RemoveOnNoteCommandReceiveListener(UnityAction<NoteCommand> onNoteCommandReceive)
         {
-            m_events.playerReceiveNoteCommandEvent.RemoveListener(onNoteCommandReceive);
+            m_events.playerNoteCommandReceiveEvent.RemoveListener(onNoteCommandReceive);
+        }
+        
+        public void AddOnNoteCommandCancelListener(UnityAction<NoteCommand> onNoteCommandCancel)
+        {
+            m_events.playerNoteCommandCancelEvent.AddListener(onNoteCommandCancel);
+        }
+
+        public void RemoveOnNoteCommandCancelListener(UnityAction<NoteCommand> onNoteCommandCancel)
+        {
+            m_events.playerNoteCommandCancelEvent.RemoveListener(onNoteCommandCancel);
         }
 
         public void AddOnEnterStateListener(UnityAction<EPlayingState, FlutePlayer> onEnterState)
@@ -371,6 +427,17 @@ namespace Behaviour
             }
             
             public abstract void Execute();
+
+            /// <summary>
+            /// Should the command cancel the other?
+            /// </summary>
+            /// <param name="other"></param>
+            /// <returns></returns>
+            public virtual bool ShouldCancel(NoteCommand other)
+            {
+                return GetExecutionTime() < other.GetExecutionTime()
+                       && timeIssued > other.timeIssued;
+            }
 
             /// <summary>
             /// Should the command be executed, now that it is next in line?
@@ -409,6 +476,12 @@ namespace Behaviour
                 return timeIssued;
             }
 
+            public override bool ShouldCancel(NoteCommand other)
+            {
+                // only one NoteStart at a time!
+                return base.ShouldCancel(other) || other.kind == Kind.eStart;
+            }
+
             public override void Execute()
             {
                 int voice = owner.PlayNoteNow(toneIndex);
@@ -427,6 +500,14 @@ namespace Behaviour
             {
                 
             }
+
+            public override bool ShouldCancel(NoteCommand other)
+            {
+                // Should cancel a NoteStart only if it is commanding the same toneIndex.
+                return base.ShouldCancel(other) 
+                       && other.kind == Kind.eStart && other.toneIndex == toneIndex;
+            }
+
             public override float GetExecutionTime()
             {
                 return timeIssued;

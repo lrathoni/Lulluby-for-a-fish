@@ -486,7 +486,6 @@ GameObject:
   - component: {fileID: 5702653602756455180}
   - component: {fileID: 1614482913355692103}
   - component: {fileID: 1446057003277994311}
-  - component: {fileID: 3067807029152712483}
   m_Layer: 0
   m_Name: Flute
   m_TagString: Untagged
@@ -619,20 +618,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   file: {fileID: 4900000, guid: 5cdae0dc463c1bb0b9da97071bed33f1, type: 3}
   startingNumberVoices: 2
---- !u!64 &3067807029152712483
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7972827416313533024}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1001 &3259317505257181153
 PrefabInstance:
   m_ObjectHideFlags: 0

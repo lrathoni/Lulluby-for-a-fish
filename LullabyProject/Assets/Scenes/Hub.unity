@@ -193,6 +193,11 @@ PrefabInstance:
       propertyPath: minUpAngle
       value: -50
       objectReference: {fileID: 0}
+    - target: {fileID: 1614482913355692103, guid: 976268515f400fa46a84adc26fc405ab,
+        type: 3}
+      propertyPath: m_Pitch
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3100059896942935922, guid: 976268515f400fa46a84adc26fc405ab,
         type: 3}
       propertyPath: m_Name
@@ -363,8 +368,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 431406556269470543, guid: 976268515f400fa46a84adc26fc405ab, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 976268515f400fa46a84adc26fc405ab, type: 3}
 --- !u!1 &421695868
 GameObject:

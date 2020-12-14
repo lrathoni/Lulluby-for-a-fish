@@ -27,7 +27,8 @@ public class HandMovement : MonoBehaviour
         Assert.IsNotNull(m_flutePlayer);
 
         m_flutePlayer.AddOnEnterStateListener(OnPlayerEnterState);
-        m_flutePlayer.AddOnReceiveNoteCommandListener(OnPlayerReceiveNoteCommand);
+        m_flutePlayer.AddOnNoteCommandReceiveListener(OnPlayerNoteCommandReceive);
+        m_flutePlayer.AddOnNoteCommandCancelListener(OnPlayerNoteCommandCancel);
         
         Camera cam = Camera.main;
         Assert.IsNotNull(cam);
@@ -36,13 +37,14 @@ public class HandMovement : MonoBehaviour
         // so that the movement is the same regardless of camera angle
         gameObject.transform.parent = m_cameraTransform;
         // Move it to rest position
-        MoveHand(restDistanceFromCamera);
+        ResetHandState(FlutePlayer.EPlayingState.eResting);
     }
 
     void OnDestroy()
     {
         m_flutePlayer.RemoveOnEnterStateListener(OnPlayerEnterState);
-        m_flutePlayer.RemoveOnReceiveNoteCommandListener(OnPlayerReceiveNoteCommand);
+        m_flutePlayer.RemoveOnNoteCommandReceiveListener(OnPlayerNoteCommandReceive);
+        m_flutePlayer.RemoveOnNoteCommandCancelListener(OnPlayerNoteCommandCancel);
     }
     
     #endregion
@@ -55,13 +57,10 @@ public class HandMovement : MonoBehaviour
                                     + m_cameraTransform.right * dist;
         transform.position = resultingPosition;
     }
-    
-    #endregion
-    #region Flute event callbacks
 
-    void OnPlayerEnterState(FlutePlayer.EPlayingState state, FlutePlayer player)
+    void ResetHandState(FlutePlayer.EPlayingState playingState)
     {
-        switch (state)
+        switch (playingState)
         {
            case FlutePlayer.EPlayingState.eStopped: 
                 MoveHand(stopDistanceFromCamera);
@@ -70,10 +69,19 @@ public class HandMovement : MonoBehaviour
                 MoveHand(restDistanceFromCamera);
                 break;
         }
-        
+
+        m_previousNotPlayingState = playingState;
+    }
+    
+    #endregion
+    #region Flute event callbacks
+
+    void OnPlayerEnterState(FlutePlayer.EPlayingState state, FlutePlayer player)
+    {
+        ResetHandState(state);
     }
 
-    void OnPlayerReceiveNoteCommand(FlutePlayer.NoteCommand command)
+    void OnPlayerNoteCommandReceive(FlutePlayer.NoteCommand command)
     {
         // todo: we have to start the animation here because
         // there is no 'Getting ready to play a note' FlutePlayer.EPlayingState yet.
@@ -85,13 +93,26 @@ public class HandMovement : MonoBehaviour
         }
     }
     
+    void OnPlayerNoteCommandCancel(FlutePlayer.NoteCommand command)
+    {
+        // same thing as in Receive.
+        switch (command.kind)
+        {
+            case FlutePlayer.NoteCommand.Kind.eStart:
+                ResetHandState(m_previousNotPlayingState);
+                break;
+        }
+    }
+    
     #endregion
     #region Private data
 
     // cached, the both of them.
     FlutePlayer m_flutePlayer;
     Transform m_cameraTransform;
-    
+
+    FlutePlayer.EPlayingState m_previousNotPlayingState;
+
     #endregion
 
 }
