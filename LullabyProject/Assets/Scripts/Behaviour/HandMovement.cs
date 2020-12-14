@@ -2,8 +2,6 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-using MptUnity.IO.Behaviour;
-
 namespace Behaviour
 {
     
@@ -63,8 +61,6 @@ public class HandMovement : MonoBehaviour
 
     void OnPlayerEnterState(FlutePlayer.EPlayingState state, FlutePlayer player)
     {
-        Debug.Log(state.ToString());
-        
         switch (state)
         {
            case FlutePlayer.EPlayingState.eStopped: 
