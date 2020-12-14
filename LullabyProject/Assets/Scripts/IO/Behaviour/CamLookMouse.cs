@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace Behaviour
+namespace IO.Behaviour
 {
     public class CamLookMouse : UnityEngine.MonoBehaviour
     {

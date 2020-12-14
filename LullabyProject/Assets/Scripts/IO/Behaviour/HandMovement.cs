@@ -2,7 +2,9 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Behaviour
+using Music;
+
+namespace IO.Behaviour
 {
     
 public class HandMovement : MonoBehaviour
@@ -10,7 +12,7 @@ public class HandMovement : MonoBehaviour
 
     #region Serialised data
 
-    public float[] positionNote = {0.9f, 0.8f, 0.7f, 0.6f, 0.5f};
+    public float[] noteOffsets = {0.9f, 0.8f, 0.7f, 0.6f, 0.5f};
 
     public float stopDistanceFromCamera = 1.2F;
     public float restDistanceFromCamera = 2.0F;
@@ -23,12 +25,14 @@ public class HandMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Assert.IsTrue(NoteColours.GetNumber() == noteOffsets.Length,
+            "Positions of the notes must correspond to NoteColours.");
+            
         m_flutePlayer = interfaceObject.GetComponent<FlutePlayer>();
         Assert.IsNotNull(m_flutePlayer);
 
         m_flutePlayer.AddOnEnterStateListener(OnPlayerEnterState);
         m_flutePlayer.AddOnNoteCommandReceiveListener(OnPlayerNoteCommandReceive);
-        m_flutePlayer.AddOnNoteCommandCancelListener(OnPlayerNoteCommandCancel);
         
         Camera cam = Camera.main;
         Assert.IsNotNull(cam);
@@ -44,7 +48,6 @@ public class HandMovement : MonoBehaviour
     {
         m_flutePlayer.RemoveOnEnterStateListener(OnPlayerEnterState);
         m_flutePlayer.RemoveOnNoteCommandReceiveListener(OnPlayerNoteCommandReceive);
-        m_flutePlayer.RemoveOnNoteCommandCancelListener(OnPlayerNoteCommandCancel);
     }
     
     #endregion
@@ -62,15 +65,13 @@ public class HandMovement : MonoBehaviour
     {
         switch (playingState)
         {
-           case FlutePlayer.EPlayingState.eStopped: 
-                MoveHand(stopDistanceFromCamera);
-                break;
            case FlutePlayer.EPlayingState.eResting:
                 MoveHand(restDistanceFromCamera);
                 break;
+           case FlutePlayer.EPlayingState.eStopped:
+                MoveHand(stopDistanceFromCamera);
+                break;
         }
-
-        m_previousNotPlayingState = playingState;
     }
     
     #endregion
@@ -81,6 +82,7 @@ public class HandMovement : MonoBehaviour
         ResetHandState(state);
     }
 
+    
     void OnPlayerNoteCommandReceive(FlutePlayer.NoteCommand command)
     {
         // todo: we have to start the animation here because
@@ -88,18 +90,13 @@ public class HandMovement : MonoBehaviour
         switch (command.kind)
         {
             case FlutePlayer.NoteCommand.Kind.eStart:
-                MoveHand(positionNote[command.toneIndex]);
+                MoveHand(noteOffsets[(int)command.noteColour]);
                 break;
-        }
-    }
-    
-    void OnPlayerNoteCommandCancel(FlutePlayer.NoteCommand command)
-    {
-        // same thing as in Receive.
-        switch (command.kind)
-        {
-            case FlutePlayer.NoteCommand.Kind.eStart:
-                ResetHandState(m_previousNotPlayingState);
+           case FlutePlayer.NoteCommand.Kind.eStop:
+                if (m_flutePlayer.State != FlutePlayer.EPlayingState.ePlaying)
+                {
+                    MoveHand(stopDistanceFromCamera);
+                }
                 break;
         }
     }

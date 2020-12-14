@@ -1,6 +1,5 @@
 ﻿
 using System.Collections.Generic;
-using System.Linq;
 
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -9,18 +8,20 @@ using UnityEngine.Events;
 using MptUnity.Audio.Behaviour;
 using MptUnity.Audio;
 
-namespace Behaviour
+using Music;
+
+namespace IO.Behaviour
 {
     /// <summary>
     /// Event which gets called whenever the FlutePlayer starts playing a MusicalNote.
     /// First argument is index of the tone in the FlutePlayer's range of notes. 
     /// </summary>
-    public class OnPlayerNoteStartEvent : UnityEvent<int, MusicalNote> { }
+    public class OnPlayerNoteStartEvent : UnityEvent<ENoteColour, MusicalNote> { }
     /// <summary>
     /// Event which gets called whenever the FlutePlayer stops playing a MusicalNote.
     /// First argument is index of the tone in the FlutePlayer's range of notes.
     /// </summary>
-    public class OnPlayerNoteStopEvent : UnityEvent<int , MusicalNote> { }
+    public class OnPlayerNoteStopEvent : UnityEvent<ENoteColour , MusicalNote> { }
     
     /// <summary>
     /// Event which gets trigger immediately when the FlutePlayer receives a NoteCommand.
@@ -80,37 +81,6 @@ namespace Behaviour
         
         #endregion
 
-        #region State
-        
-        public enum EPlayingState
-        {
-            ePlaying,
-            eStopped,
-            eGettingReady, // todo: should free us from using NoteCommand event for animations.
-            eResting
-        }
-
-        EPlayingState State
-        {
-            get => m_state;
-            set
-            {
-                if (value == m_state)
-                {
-                    return;
-                }
-                m_state = value;
-                if (m_state == EPlayingState.eStopped)
-                {
-                    m_timeStopped = Time.time;
-                }
-                // Notify!
-                m_events.playerEnterStateEvent.Invoke(m_state, this);
-            }
-        }
-
-        #endregion
-
         #region Unity MonoBehaviour events
 
         void Awake()
@@ -122,8 +92,8 @@ namespace Behaviour
 
         void Start()
         {
-            Assert.IsTrue(keys.Length == tones.Length, 
-                "Keys must of the same length, and correspond to tones.");
+            Assert.IsTrue(NoteColours.GetNumber() == keys.Length && keys.Length == tones.Length,
+                "Keys must of the same length, and correspond to NoteColours.");
 
             StopVoice();            
             State = EPlayingState.eResting;
@@ -141,7 +111,6 @@ namespace Behaviour
         }
 
         #endregion
-
         #region Update routine
 
         void UpdateInput()
@@ -151,11 +120,11 @@ namespace Behaviour
                 KeyCode key = keys[toneIndex];
                 if (Input.GetKeyDown(key))
                 {
-                    AddNoteCommand(new NoteStartDelayedCommand(this, toneIndex, Time.time));
+                    AddNoteCommand(new NoteStartDelayedCommand(this, (ENoteColour)toneIndex, Time.time));
                 }
                 else if (Input.GetKeyUp(key))
                 {
-                    AddNoteCommand(new NoteStopDelayedCommand(this, toneIndex, Time.time));
+                    AddNoteCommand(new NoteStopDelayedCommand(this, (ENoteColour)toneIndex, Time.time));
                 }
             }
         }
@@ -166,16 +135,13 @@ namespace Behaviour
         /// <remarks>Requires that m_noteCommandQueue be sorted by ascending time of issuing.</remarks>
         void UpdateCommandQueue()
         {
-            for (int i = 0; i < m_noteCommandQueue.Count;)
+            SortCommandQueue();
+            
+            while ( m_noteCommandQueue.Count > 0
+                && m_noteCommandQueue[0].ShouldExecute(Time.time)
+                )
             {
-                if (m_noteCommandQueue[i].ShouldExecute(Time.time))
-                {
-                    i = ExecuteNoteCommand(i);
-                }
-                else
-                {
-                    ++i;
-                }
+                ExecuteFirstInLineCommand();
             }
         }
 
@@ -194,7 +160,18 @@ namespace Behaviour
         void AddNoteCommand(NoteCommand command)
         {
             m_noteCommandQueue.Add(command);
-            
+
+            var first = m_noteCommandQueue[0];
+            SortCommandQueue();
+            // Invoke with the next relevant command!
+            if (first != m_noteCommandQueue[0] || first == command)
+            {
+                m_events.playerNoteCommandReceiveEvent.Invoke(m_noteCommandQueue[0]);            
+            }
+        }
+
+        void SortCommandQueue()
+        {
             // Sort by expected execution time
             m_noteCommandQueue.Sort((c1, c2) =>
                 {
@@ -216,37 +193,39 @@ namespace Behaviour
                 if (current.ShouldCancel(next))
                 {
                     m_noteCommandQueue.RemoveAt(i + 1);
-                    m_events.playerNoteCommandCancelEvent.Invoke(next);
                 }
                 else
                 {
                     ++i;
                 }
             }
-
-            m_events.playerNoteCommandReceiveEvent.Invoke(command);            
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="commandIndex"></param>
-        /// <returns>Index of the next command note to be processed.</returns>
-        int ExecuteNoteCommand(int commandIndex)
+        void ExecuteFirstInLineCommand()
         {
+            Assert.IsTrue(m_noteCommandQueue.Count > 0);
             // requires that m_noteCommandQueue be sorted by ascending order of execution time.
-            var command = m_noteCommandQueue[commandIndex];
-            m_noteCommandQueue.RemoveAt(commandIndex);
-            command.Execute();
-            return commandIndex;
+            var first = m_noteCommandQueue[0];
+            
+            m_noteCommandQueue.RemoveAt(0);
+            
+            first.Execute();
+            
+            if (m_noteCommandQueue.Count > 0)
+            {
+               m_events.playerNoteCommandReceiveEvent.Invoke(m_noteCommandQueue[0]); 
+            }
         }
 
         #endregion
         #region Playing routine
 
-        bool StopNoteNow(int toneIndex)
+        bool StopNoteNow(ENoteColour colour)
         {
-            if (m_playingVoice == -1 || m_playingToneIndex != toneIndex)
+            if (m_playingVoice == -1 || m_playingNoteColour != colour)
             {
                 // failure.
                 return false;
@@ -254,7 +233,7 @@ namespace Behaviour
             // Get the note BEFORE stopping it!
             MusicalNote note = m_instrumentSource.GetNote(m_playingVoice);
 
-            bool success = StopNoteNowSilent(toneIndex);
+            bool success = m_instrumentSource.StopNote(m_playingVoice);
             Assert.IsTrue(success, "Call to StopNoteNow should not fail at this point.");
             
             // resetting voice and toneIndex.
@@ -262,36 +241,47 @@ namespace Behaviour
             State = EPlayingState.eStopped;
             
             // Notifying the listeners that the note just stopped.
-            m_events.playerNoteStopEvent.Invoke(toneIndex, note);
+            m_events.playerNoteStopEvent.Invoke(colour, note);
             
             return true;
         }
 
         /// <summary>
-        /// Stop note without changing the state or invoking NoteStop event.
+        /// Stop note without changing the state .
         /// To be used to switch between two playing notes. 
         /// </summary>
-        /// <param name="toneIndex"></param>
+        /// <param name="colour"></param>
         /// <returns></returns>
         /// <remarks> </remarks>
-        bool StopNoteNowSilent(int toneIndex)
+        bool StopNoteNowKeepState(ENoteColour colour)
         {
-            if (m_playingVoice == -1 || m_playingToneIndex != toneIndex)
+            if (m_playingVoice == -1 || m_playingNoteColour != colour)
             {
+                // failure.
                 return false;
             }
-            return m_instrumentSource.StopNote(m_playingVoice);
+            // Get the note BEFORE stopping it!
+            MusicalNote note = m_instrumentSource.GetNote(m_playingVoice);
+
+            bool success = m_instrumentSource.StopNote(m_playingVoice);
+            Assert.IsTrue(success, "Call to StopNoteNow should not fail at this point.");
+            
+            // resetting voice and toneIndex.
+            StopVoice();
+            
+            // Notifying the listeners that the note just stopped.
+            m_events.playerNoteStopEvent.Invoke(colour, note);
+            
+            return true;
         }
 
-        int PlayNoteNow(int toneIndex)
+        int PlayNoteNow(ENoteColour colour)
         {
             
             // We can't have multiple tones playing in the same voice.
-            // We do that silently, since there should not be
-            // any change if it is already playing.
-            StopNoteNowSilent(m_playingToneIndex);
+            StopNoteNowKeepState(m_playingNoteColour);
             //
-            int tone = tones[toneIndex];
+            int tone = tones[(int)colour];
             //
             int voice = m_instrumentSource.PlayNote(new MusicalNote(tone, volume));
 
@@ -302,24 +292,51 @@ namespace Behaviour
             }
 
             m_playingVoice = voice;
-            m_playingToneIndex = toneIndex;
+            m_playingNoteColour = colour;
             State = EPlayingState.ePlaying;
 
             // Notifying the listeners that a note is being played.
-            m_events.playerNoteStartEvent.Invoke(toneIndex, m_instrumentSource.GetNote(voice));
+            m_events.playerNoteStartEvent.Invoke(colour, m_instrumentSource.GetNote(voice));
             
             return voice;
         }
 
+        #endregion
+        #region State
+        public enum EPlayingState
+        {
+            ePlaying,
+            eStopped,
+            eGettingReady, // todo: should free us from using NoteCommand event for animations.
+            eResting
+        }
+
+        public EPlayingState State
+        {
+            get => m_state;
+            private set
+            {
+                if (value == m_state)
+                {
+                    return;
+                }
+                m_state = value;
+                if (m_state == EPlayingState.eStopped)
+                {
+                    m_timeStopped = Time.time;
+                }
+                // Notify!
+                m_events.playerEnterStateEvent.Invoke(m_state, this);
+            }
+        }
         #endregion
 
         #region Private utility
 
         void StopVoice()
         {
-            // resetting the playing voice and toneIndex;
+            // resetting the playing voice 
             m_playingVoice = -1;
-            m_playingToneIndex = -1;
         }
         
         void SetupAudio()
@@ -357,22 +374,22 @@ namespace Behaviour
             }
         }
 
-        public void AddOnNoteStartListener(UnityAction<int, MusicalNote> onNoteStart)
+        public void AddOnNoteStartListener(UnityAction<ENoteColour, MusicalNote> onNoteStart)
         {
             m_events.playerNoteStartEvent.AddListener(onNoteStart);
         }
 
-        public void RemoveOnNoteStartListener(UnityAction<int, MusicalNote> onNoteStart)
+        public void RemoveOnNoteStartListener(UnityAction<ENoteColour, MusicalNote> onNoteStart)
         {
             m_events.playerNoteStartEvent.RemoveListener(onNoteStart);
         }
 
-        public void AddOnNoteStopListener(UnityAction<int, MusicalNote> onNoteStop)
+        public void AddOnNoteStopListener(UnityAction<ENoteColour, MusicalNote> onNoteStop)
         {
             m_events.playerNoteStopEvent.AddListener(onNoteStop);
         }
 
-        public void RemoveOnNoteStopListener(UnityAction<int, MusicalNote> onNoteStop)
+        public void RemoveOnNoteStopListener(UnityAction<ENoteColour, MusicalNote> onNoteStop)
         {
             m_events.playerNoteStopEvent.RemoveListener(onNoteStop);
         }
@@ -418,12 +435,12 @@ namespace Behaviour
                 eStart,
                 eStop
             }
-            protected NoteCommand(FlutePlayer a_owner, int a_toneIndex, Kind a_kind, float a_timeIssued)
+            protected NoteCommand(FlutePlayer a_owner, ENoteColour aNoteColour, Kind aKind, float aTimeIssued)
             {
                 owner = a_owner;
-                toneIndex = a_toneIndex;
-                timeIssued = a_timeIssued;
-                kind = a_kind;
+                noteColour = aNoteColour;
+                timeIssued = aTimeIssued;
+                kind = aKind;
             }
             
             public abstract void Execute();
@@ -457,15 +474,15 @@ namespace Behaviour
 
             public readonly Kind kind;
             public readonly float timeIssued;
-            public readonly int toneIndex;
+            public readonly ENoteColour noteColour;
 
             protected readonly FlutePlayer owner;
         }
 
         class NoteStartCommand : NoteCommand
         {
-            protected NoteStartCommand(FlutePlayer owner, int toneIndex, float timeIssued) 
-                : base(owner, toneIndex, Kind.eStart, timeIssued)
+            protected NoteStartCommand(FlutePlayer owner, ENoteColour noteColour, float timeIssued) 
+                : base(owner, noteColour, Kind.eStart, timeIssued)
             {
                 
             }
@@ -484,7 +501,7 @@ namespace Behaviour
 
             public override void Execute()
             {
-                int voice = owner.PlayNoteNow(toneIndex);
+                int voice = owner.PlayNoteNow(noteColour);
                 if (voice != -1)
                 {
                     // UnityEngine.Debug.Log($"{voice} Started playing!");
@@ -495,8 +512,8 @@ namespace Behaviour
 
         class NoteStopCommand : NoteCommand
         {
-            protected NoteStopCommand(FlutePlayer owner, int toneIndex, float timeIssued) 
-                : base(owner, toneIndex, Kind.eStop, timeIssued)
+            protected NoteStopCommand(FlutePlayer owner, ENoteColour noteColour, float timeIssued) 
+                : base(owner, noteColour, Kind.eStop, timeIssued)
             {
                 
             }
@@ -505,7 +522,7 @@ namespace Behaviour
             {
                 // Should cancel a NoteStart only if it is commanding the same toneIndex.
                 return base.ShouldCancel(other) 
-                       && other.kind == Kind.eStart && other.toneIndex == toneIndex;
+                       && other.kind == Kind.eStart && other.noteColour == noteColour;
             }
 
             public override float GetExecutionTime()
@@ -515,7 +532,7 @@ namespace Behaviour
 
             public override void Execute()
             {
-                bool success = owner.StopNoteNow(toneIndex);
+                bool success = owner.StopNoteNow(noteColour);
                 if (success)
                 {
                     // UnityEngine.Debug.Log($"Stopped playing!");
@@ -526,8 +543,8 @@ namespace Behaviour
         class NoteStartDelayedCommand : NoteStartCommand
         {
 
-            public NoteStartDelayedCommand(FlutePlayer owner, int toneIndex, float timeIssued)
-                : base(owner, toneIndex, timeIssued)
+            public NoteStartDelayedCommand(FlutePlayer owner, ENoteColour noteColour, float timeIssued)
+                : base(owner, noteColour, timeIssued)
             {
             }
             public override float GetExecutionTime()
@@ -546,8 +563,8 @@ namespace Behaviour
 
         class NoteStopDelayedCommand : NoteStopCommand
         {
-            public NoteStopDelayedCommand(FlutePlayer owner, int toneIndex, float timeIssued)
-                : base(owner, toneIndex, timeIssued)
+            public NoteStopDelayedCommand(FlutePlayer owner, ENoteColour noteColour, float timeIssued)
+                : base(owner, noteColour, timeIssued)
             {
             }
 
@@ -558,12 +575,14 @@ namespace Behaviour
 
         }
         #endregion
+        
+
 
         #region Private data 
 
         IInstrumentSource m_instrumentSource;
 
-        int m_playingToneIndex;
+        ENoteColour m_playingNoteColour;
         int m_playingVoice;
         
         Events m_events;
