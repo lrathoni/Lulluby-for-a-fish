@@ -367,8 +367,8 @@ GameObject:
   - component: {fileID: 4240068288038404480}
   - component: {fileID: 966209778086113324}
   m_Layer: 0
-  m_Name: OldFisherman
-  m_TagString: Untagged
+  m_Name: Player
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -411,7 +411,6 @@ MonoBehaviour:
   forwardSpeed: 1.5
   backwardSpeed: 0.5
   lateralSpeed: 1
-  stepSize: 0.5
 --- !u!195 &4240068288038404480
 NavMeshAgent:
   m_ObjectHideFlags: 0
