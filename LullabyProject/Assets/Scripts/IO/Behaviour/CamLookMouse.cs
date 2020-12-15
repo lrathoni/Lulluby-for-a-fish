@@ -30,6 +30,36 @@ namespace IO.Behaviour
             transform.localEulerAngles = m_eulerAngles;
         }
 
+        void OnDestroy() {
+            UnHideCursor();
+        }
+
+        void OnEnable()
+        {
+            // Hide mouse cursor.
+            HideCursor();
+        }
+
+        void OnDisable()
+        {
+            // Hide mouse cursor.
+            UnHideCursor();
+        }
+        
+        // Save the previous state of the cursor
+        void HideCursor() 
+        {
+            m_previousMode = Cursor.lockState;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        void UnHideCursor()
+        {
+            Cursor.lockState = m_previousMode;
+        }
+
+        CursorLockMode m_previousMode;
+
         Vector3 m_eulerAngles;
 
     }

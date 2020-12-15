@@ -43,8 +43,6 @@ public class PlayerMovement : MonoBehaviour
         m_playerAgent.updateUpAxis = false;
         // m_playerAgent.updatePosition = false;
 
-        // Hide mouse cursor.
-        Cursor.lockState = CursorLockMode.Locked;
         
     }
 

@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Assertions;
+using IO.Behaviour;
 
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
 
-    public static bool pausedActive;
     // Start is called before the first frame update
     void Start()
     {
+        var cam = Camera.main;
+        Assert.IsNotNull(cam);
+        m_camLook = cam.GetComponent<CamLookMouse>();
+        Assert.IsNotNull(m_camLook);
+        Assert.IsNotNull(pauseMenu);
         pauseMenu.SetActive(false);
     }
 
@@ -19,7 +25,7 @@ public class PauseMenu : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if(pausedActive) 
+            if(m_pausedActive) 
             {
                 ResumeGame();
             }
@@ -32,20 +38,26 @@ public class PauseMenu : MonoBehaviour
 
     public void PauseGame() 
     {
+        m_camLook.enabled = false;
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
-        pausedActive = true;
+        m_pausedActive = true;
     }
 
     public void ResumeGame() 
     {
-        pauseMenu.SetActive(false);
+        m_camLook.enabled = true;
         Time.timeScale = 1f;
-        pausedActive = false;
+        m_pausedActive = false;
+        pauseMenu.SetActive(false);
     }
 
     public void ReturnToMainMenu() {
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
+
+
+    CamLookMouse m_camLook;
+    bool m_pausedActive;
 }
