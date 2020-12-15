@@ -47,18 +47,22 @@ namespace IO.Behaviour
         }
         
         // Save the previous state of the cursor
-        void HideCursor() 
+        void HideCursor()
         {
             m_previousMode = Cursor.lockState;
+            m_previousVisibility = Cursor.visible;
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         void UnHideCursor()
         {
             Cursor.lockState = m_previousMode;
+            Cursor.visible = m_previousVisibility;
         }
 
         CursorLockMode m_previousMode;
+        bool m_previousVisibility;
 
         Vector3 m_eulerAngles;
 
