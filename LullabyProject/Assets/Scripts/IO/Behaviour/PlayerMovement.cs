@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform cameraTransform;
     
     // Speed according to movement direction.
-    [Range(0.1f, 0.2f)]
+    [Range(1.5f, 3.0f)]
     public float speedMultiplier   = 0.1f;
     [Range(0.1f, 1.0f)]
     public float forwardSpeed      = 1.0f;
@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         if (IsMoving())
         {
             Vector3 move = cameraTransform.right * lateralDir + cameraTransform.forward * longitudinalDir;
-            m_playerAgent.Move(move * GetSpeed());
+            m_playerAgent.Move(move * (GetSpeed() * Time.deltaTime));
         }
         
     }
