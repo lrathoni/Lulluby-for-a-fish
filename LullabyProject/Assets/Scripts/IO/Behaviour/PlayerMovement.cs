@@ -18,8 +18,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform cameraTransform;
     
     // Speed according to movement direction.
-    [Range(0.005f, 0.03f)]
-    public float speedMultiplier   = 0.015f;
+    [Range(0.1f, 0.2f)]
+    public float speedMultiplier   = 0.1f;
     [Range(0.1f, 1.0f)]
     public float forwardSpeed      = 1.0f;
     [Range(0.1f, 1.0f)]
