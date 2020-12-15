@@ -65,8 +65,7 @@ namespace MptUnity.Audio
 
         public int PlayNote(MusicalNote note)
         {
-            int voice;
-            bool shouldPlay = ChooseVoice(note, out voice);
+            bool shouldPlay = ChooseVoice(note, out int voice);
             if (!shouldPlay)
             {
                 // couldn't find a proper voice, returning early.
@@ -92,20 +91,55 @@ namespace MptUnity.Audio
         /// <summary>
         /// Stops the channels which were playing in voice.
         /// </summary>
-        public void StopNote(int voice)
+        public bool StopNote(int voice)
         {
+            bool success = true;
             for (int k = 0; k < GetNumberChannels(); ++k)
             {
                 int channel = m_playingChannels[voice][k];
                 if (channel != -1)
                 {
-                    m_moduleExt.GetInteractive().StopNote(channel);
+                    success &= m_moduleExt.GetInteractive().StopNote(channel);
                 }
                 m_playingChannels[voice][k] = -1;
             }
 
             // the note is no longer playing.
             m_playingNotes[voice] = new MusicalNote();
+            return success;
+        }
+
+        /// <summary>
+        /// Checks whether the note can be played on the Instrument immediately.
+        /// </summary>
+        /// <param name="note"></param>
+        /// <returns></returns>
+        public bool CanPlay(MusicalNote note)
+        {
+            bool shouldPlay = ChooseVoice(note, out int voice);
+            return shouldPlay;
+        }
+
+        /// <summary>
+        /// Checks whether the voice is currently playing, and so can be stopped.
+        /// </summary>
+        /// <param name="voice"></param>
+        /// <returns></returns>
+        public bool CanStop(int voice)
+        {
+            if (voice > m_playingChannels.Length || voice < 0)
+            {
+                return false;
+            }
+            for (int k = 0; k < GetNumberChannels(); ++k)
+            {
+                int channel = m_playingChannels[voice][k];
+                if (channel == -1)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public int GetNumberVoices()

@@ -15,7 +15,7 @@ namespace MptUnity.Audio.Behaviour
     public interface IInstrumentSource : IMusicSource // todo: add IPlayable
     {
         #region Playing
-        void StopNote(int voice);
+        bool StopNote(int voice);
         /// <summary>
         /// Plays the MusicalNote on the instrument.
         /// The instrument will keep playing until StopNote is called.
@@ -23,6 +23,9 @@ namespace MptUnity.Audio.Behaviour
         /// <param name="note"></param>
         /// <returns>voice of the note, -1 on failure. </returns>
         int PlayNote(MusicalNote note);
+
+        bool CanStop(int voice);
+        bool CanPlay(MusicalNote note);
 
         int NumberVoices { get; set; }
 
