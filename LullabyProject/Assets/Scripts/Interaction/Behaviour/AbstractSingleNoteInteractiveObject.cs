@@ -7,7 +7,7 @@ namespace Interaction.Behaviour
     /// <summary>
     /// An interactive object which reacts to only one note.
     /// </summary>
-    public abstract class AbstractSingleNoteObject : AbstractMusicInteractiveObject
+    public abstract class AbstractSingleNoteInteractiveObject : AbstractMusicInteractiveObject
     {
         #region Serialised data
 
@@ -21,7 +21,6 @@ namespace Interaction.Behaviour
         protected abstract void Deactivate(MusicalNote note);
 
         #endregion
-
         #region AbstractMusicInteractiveObject resolution
 
         protected sealed override void OnNoteStart(ENoteColour aNoteColour, MusicalNote note)
