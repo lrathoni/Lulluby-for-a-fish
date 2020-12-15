@@ -406,7 +406,7 @@ MonoBehaviour:
   left: 113
   right: 100
   cameraTransform: {fileID: 5618410618295276329}
-  speedMultiplier: 0.015
+  speedMultiplier: 2
   forwardSpeed: 1
   backwardSpeed: 0.5
   lateralSpeed: 0.3

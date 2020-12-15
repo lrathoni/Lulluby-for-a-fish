@@ -18,8 +18,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform cameraTransform;
     
     // Speed according to movement direction.
-    [Range(0.005f, 0.03f)]
-    public float speedMultiplier   = 0.015f;
+    [Range(1.5f, 3.0f)]
+    public float speedMultiplier   = 0.1f;
     [Range(0.1f, 1.0f)]
     public float forwardSpeed      = 1.0f;
     [Range(0.1f, 1.0f)]
@@ -43,8 +43,6 @@ public class PlayerMovement : MonoBehaviour
         m_playerAgent.updateUpAxis = false;
         // m_playerAgent.updatePosition = false;
 
-        // Hide mouse cursor.
-        Cursor.lockState = CursorLockMode.Locked;
         
     }
 
@@ -59,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         if (IsMoving())
         {
             Vector3 move = cameraTransform.right * lateralDir + cameraTransform.forward * longitudinalDir;
-            m_playerAgent.Move(move * GetSpeed());
+            m_playerAgent.Move(move * (GetSpeed() * Time.deltaTime));
         }
         
     }
