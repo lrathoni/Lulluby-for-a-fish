@@ -4,7 +4,7 @@ using UnityEngine.Events;
 namespace MptUnity.Audio.Behaviour
 {
     
-    public class PlaybackChangeEvent : UnityEvent<Audio.AudioPlaybackState> { }
+    public class PlaybackChangeEvent : UnityEvent<Audio.EAudioPlaybackState> { }
     public class MusicLoadEvent : UnityEvent<IMusic, bool> { }
     public class MusicSwitchEvent : UnityEvent<IMusic>  {}
     public class BpmChangeEvent : UnityEvent<double> { }
@@ -73,12 +73,12 @@ namespace MptUnity.Audio.Behaviour
         int GetCurrentMusicIndex();
         bool IsReady();
 
-        void AddPlaybackChangeListener(UnityAction<AudioPlaybackState> onPlaybackChange);
+        void AddPlaybackChangeListener(UnityAction<EAudioPlaybackState> onPlaybackChange);
         void AddMusicLoadListener(UnityAction<IMusic, bool> onMusicLoad);
         void AddMusicSwitchListener(UnityAction<IMusic> onMusicSwitch);
         void AddBpmChangeListener(UnityAction<double> onBpmChange);
         void AddMuteSectionChangeListener(UnityAction<MusicSection, bool> onMuteSectionChange);
-        void RemovePlaybackChangeListener(UnityAction<AudioPlaybackState> onPlaybackChange);
+        void RemovePlaybackChangeListener(UnityAction<EAudioPlaybackState> onPlaybackChange);
         void RemoveMusicSwitchListener(UnityAction<IMusic> onMusicSwitch);
         void RemoveMusicLoadListener(UnityAction<IMusic, bool> onMusicLoad);
         void RemoveBpmChangeListener(UnityAction<double> onBpmChange);

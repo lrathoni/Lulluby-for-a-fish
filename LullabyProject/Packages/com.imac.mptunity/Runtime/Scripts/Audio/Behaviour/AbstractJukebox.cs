@@ -110,29 +110,29 @@ namespace MptUnity.Audio.Behaviour
 
         public bool IsPaused()
         {
-            return GetPlaybackState() == AudioPlaybackState.ePaused;
+            return GetPlaybackState() == EAudioPlaybackState.ePaused;
         }
 
         public bool IsPlaying()
         {
-            return GetPlaybackState() == AudioPlaybackState.ePlaying;
+            return GetPlaybackState() == EAudioPlaybackState.ePlaying;
         }
 
         public bool IsStopped()
         {
-            return GetPlaybackState() == AudioPlaybackState.eStopped;
+            return GetPlaybackState() == EAudioPlaybackState.eStopped;
         }
 
         public void Pause()
         {
             UnityEngine.Assertions.Assert.IsTrue(IsReady());
-            SetPlaybackState(AudioPlaybackState.ePaused);
+            SetPlaybackState(EAudioPlaybackState.ePaused);
         }
 
         public void Play()
         {
             UnityEngine.Assertions.Assert.IsTrue(IsReady());
-            SetPlaybackState(AudioPlaybackState.ePlaying);
+            SetPlaybackState(EAudioPlaybackState.ePlaying);
         }
 
         /// <summary>
@@ -154,14 +154,14 @@ namespace MptUnity.Audio.Behaviour
                     )
                 );
             */
-            SetPlaybackState(AudioPlaybackState.eStopped);
+            SetPlaybackState(EAudioPlaybackState.eStopped);
         }
 
         #endregion
 
         #region Playback
 
-        void SetPlaybackState(AudioPlaybackState state)
+        void SetPlaybackState(EAudioPlaybackState state)
         {
             UnityEngine.Assertions.Assert.IsTrue(IsReady());
 
@@ -171,7 +171,7 @@ namespace MptUnity.Audio.Behaviour
         }
 
 
-        public AudioPlaybackState GetPlaybackState()
+        public EAudioPlaybackState GetPlaybackState()
         {
             return m_state;
         }
@@ -375,7 +375,7 @@ namespace MptUnity.Audio.Behaviour
             m_events.muteSectionChangeEvent.AddListener(onMuteSectionChange);
         }
 
-        public void AddPlaybackChangeListener(UnityAction<AudioPlaybackState> onPlaybackChange)
+        public void AddPlaybackChangeListener(UnityAction<EAudioPlaybackState> onPlaybackChange)
         {
             m_events.playbackChangeEvent.AddListener(onPlaybackChange);
         }
@@ -390,7 +390,7 @@ namespace MptUnity.Audio.Behaviour
             m_events.muteSectionChangeEvent.RemoveListener(onMuteSectionChange);
         }
 
-        public void RemovePlaybackChangeListener(UnityAction<AudioPlaybackState> onPlaybackChange)
+        public void RemovePlaybackChangeListener(UnityAction<EAudioPlaybackState> onPlaybackChange)
         {
             m_events.playbackChangeEvent.RemoveListener(onPlaybackChange);
         }
@@ -417,15 +417,15 @@ namespace MptUnity.Audio.Behaviour
         /// </summary>
         /// <param name="updated"></param>
         /// <param name="previous"></param>
-        void SetStreamState(AudioPlaybackState updated, AudioPlaybackState previous)
+        void SetStreamState(EAudioPlaybackState updated, EAudioPlaybackState previous)
         {
             switch (updated)
             {
-            case AudioPlaybackState.ePaused:
+            case EAudioPlaybackState.ePaused:
                 m_source.Pause();
                 break;
-            case AudioPlaybackState.ePlaying:
-                if (previous == AudioPlaybackState.eStopped)
+            case EAudioPlaybackState.ePlaying:
+                if (previous == EAudioPlaybackState.eStopped)
                 {
                     m_source.Play();
                 }
@@ -435,7 +435,7 @@ namespace MptUnity.Audio.Behaviour
                 }
 
                 break;
-            case AudioPlaybackState.eStopped:
+            case EAudioPlaybackState.eStopped:
                 m_source.Stop();
                 break;
             }
@@ -499,7 +499,7 @@ namespace MptUnity.Audio.Behaviour
         readonly List<TMusic> m_musicList;
         int m_currentMusicIndex;
 
-        AudioPlaybackState m_state;
+        EAudioPlaybackState m_state;
         
         UnityEngine.AudioSource m_source;
 

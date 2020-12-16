@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="df85b24a-c57c-4b49-ae92-a18e8d9c14d6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Animations/walkLeft.anim" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Animations/walkLeft.anim - Raccourci.lnk" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Animations/walkLeft.anim - Raccourci.lnk.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Animations/walkLeft.anim.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Animations/walkRight.anim" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Animations/walkRight.anim.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshAssetManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshComponentsEditor.asmdef" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshComponentsGUIUtility.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshComponentsGUIUtility.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshLinkEditor.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshLinkEditor.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshModifierEditor.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshModifierEditor.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshModifierVolumeEditor.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshModifierVolumeEditor.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshSurfaceEditor.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshSurfaceEditor.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Scripts.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Scripts/NavMeshComponents.asmdef" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Scripts/NavMeshLink.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Scripts/NavMeshLink.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Scripts/NavMeshModifier.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Scripts/NavMeshModifier.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Scripts/NavMeshModifierVolume.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Scripts/NavMeshModifierVolume.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Scripts/NavMeshSurface.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Scripts/NavMeshSurface.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Hub.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Hub/NavMesh-NavMesh 1.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Hub/NavMesh-NavMesh 1.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Hub/NavMesh-NavMesh.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Hub/NavMesh-NavMesh.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour/CamLookMouse.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour/CamLookMouse.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour/CamStepFeet.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour/CamStepFeet.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour/PlayerMovement.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Textures/tileTexture.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Textures/tileTexture.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player.prefab.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Hub.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Audio/Instruments/Marimba.iti" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Audio/Instruments/Marimba.iti" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Audio/Instruments/Piccolo.iti" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Audio/Instruments/Piccolo.iti" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Hand.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Hub.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Hub.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Hub/3Dmodel.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Hub/3Dmodel.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Hub/3Dmodel/hubPrototype.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Hub/3Dmodel/hubPrototype.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Hub/3Dmodel/hubPrototype.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Hub/3Dmodel/hubPrototype.fbx.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Hub/green.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Hub/green.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Hub/green.jpg.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Hub/green.jpg.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Hub/hubPrototype.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Hub/hubPrototype.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Hub/hubPrototype.prefab.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Hub/hubPrototype.prefab.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Objects.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Objects.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Objects/Boot.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Objects/Boot.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Objects/Boot/boot.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Objects/Boot/boot.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Objects/Boot/boot.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Objects/Boot/boot.fbx.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Objects/Bucket.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Objects/Bucket.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Objects/Bucket/Bucket.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Objects/Bucket/Bucket.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Objects/Bucket/Bucket.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Objects/Bucket/Bucket.fbx.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Objects/Bucket/buckImg.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Objects/Bucket/buckImg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Objects/Bucket/buckImg.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Objects/Bucket/buckImg.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Objects/Bucket/metal.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Objects/Bucket/metal.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Objects/Bucket/metal.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Objects/Bucket/metal.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Pan Flute.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Pan Flute.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Pan Flute/PanFlute.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Pan Flute/PanFlute.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Pan Flute/PanFlute.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Pan Flute/PanFlute.fbx.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Pan Flute/woodImg.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Pan Flute/woodImg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Pan Flute/woodImg.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Models/Pan Flute/woodImg.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Placeholder.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Placeholder.txt.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshComponentsEditor.asmdef.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Hub.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Hub.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviours.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviours/Placeholder.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviours/Placeholder.txt.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Scripts/NavMeshComponents.asmdef.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HandMovement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HandMovement.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Menus.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Menu.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Menus/MainMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Menu/MainMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Menus/MainMenu.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Menu/MainMenu.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Menus/PauseMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Menu/PauseMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Menus/PauseMenu.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Menu/PauseMenu.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MouseLook.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MouseLook.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshAssetManager.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour/PlayerMovement.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.imac.mptunity/Assets/Audio/Instruments/Marimba.iti" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.imac.mptunity/Assets/Audio/Instruments/Marimba.iti" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/NavMeshAreas.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/NavMeshAreas.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/NavMeshComponents/Editor/NavMeshModifierEditor.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Assets/Scripts/Behaviour/HandMovement.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>
