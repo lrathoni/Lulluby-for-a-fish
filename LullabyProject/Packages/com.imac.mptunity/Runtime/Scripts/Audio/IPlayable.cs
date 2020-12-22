@@ -1,7 +1,7 @@
 ﻿namespace MptUnity.Audio
 {
     
-    public enum AudioPlaybackState
+    public enum EAudioPlaybackState
     {
         // Keep eStopped at 0 so that it is the default state.
         eStopped = 0,
@@ -13,7 +13,7 @@
     {
         
 
-        AudioPlaybackState GetPlaybackState();
+        EAudioPlaybackState GetPlaybackState();
 
         // void SetPlaybackState(AudioPlaybackState state);
         

@@ -1,2 +1,0 @@
-﻿
-This is where the custom scripts inheriting from UnityEngine.MonoBehaviour should be put.
