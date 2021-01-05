@@ -168,7 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   time: 35
   particleSystemIndex: 8
-  pathName: RiverPath0
+  pathName: RiverPath3
 --- !u!199 &1559194
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -10200,7 +10200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   time: 35
   particleSystemIndex: 12
-  pathName: RiverPath0
+  pathName: RiverPath3
 --- !u!199 &343957812
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -14971,7 +14971,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   time: 35
   particleSystemIndex: 4
-  pathName: RiverPath0
+  pathName: RiverPath3
 --- !u!199 &348404869
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -19834,7 +19834,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   time: 35
   particleSystemIndex: 15
-  pathName: RiverPath1
+  pathName: RiverPath2
 --- !u!199 &691546204
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -43851,6 +43851,76 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &1262497036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1262497037}
+  - component: {fileID: 1262497038}
+  m_Layer: 0
+  m_Name: RiverPath2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1262497037
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262497036}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -94.1, y: -4, z: 40.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1280209983}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1262497038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262497036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bffa8aa898b437183cd5617f7b5303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathName: RiverPath2
+  pathColor: {r: 0.9433962, g: 0.04004982, b: 0.04004982, a: 1}
+  nodes:
+  - {x: -108.458466, y: 7.462818, z: 177.63133}
+  - {x: -107.60074, y: 7.5, z: 141.07768}
+  - {x: -98.64121, y: 7.5, z: 110.67233}
+  - {x: -72.952034, y: 7.5, z: 98.11636}
+  - {x: -55.220825, y: 7.5, z: 87.401794}
+  - {x: -27.889174, y: 7.5, z: 99.06702}
+  - {x: 14.136475, y: 7.5, z: 98.93472}
+  - {x: 64.68344, y: 7.5, z: 84.74498}
+  - {x: 95.53738, y: 7.5, z: 70.49476}
+  - {x: 96.650826, y: 7.5, z: 20.618698}
+  - {x: 84.285255, y: 7.5, z: -12.348145}
+  - {x: 32.429123, y: 7.5, z: -12.508545}
+  - {x: 23.235132, y: 7.5, z: -48.625153}
+  - {x: -32.4, y: 7.5, z: -50.534027}
+  - {x: -55.200535, y: 7.5, z: -67.074615}
+  - {x: -83.537, y: 7.5, z: -46.31697}
+  - {x: -103.3, y: 7.5, z: 4.550049}
+  - {x: -129.80965, y: 7.5, z: 11.039322}
+  - {x: -140.88757, y: 7.5, z: 30.542099}
+  - {x: -179.44, y: 7.5, z: 33.981323}
+  nodeCount: 20
+  initialized: 1
+  initialName: New Path 1
+  pathVisible: 1
 --- !u!4 &1280209983 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5e72c11e429dc447ca76facfaeb61b4c,
@@ -54073,7 +54143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   time: 35
   particleSystemIndex: 6
-  pathName: RiverPath0
+  pathName: RiverPath2
 --- !u!199 &1593330582
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -58923,7 +58993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   time: 35
   particleSystemIndex: 3
-  pathName: RiverPath1
+  pathName: RiverPath2
 --- !u!199 &1630070272
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -63694,7 +63764,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   time: 35
   particleSystemIndex: 9
-  pathName: RiverPath1
+  pathName: RiverPath2
 --- !u!199 &1692988094
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -78062,3 +78132,74 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aafb0befdbf0441ff878d422ba448b51, type: 3}
+--- !u!1 &1965157685
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1965157686}
+  - component: {fileID: 1965157687}
+  m_Layer: 0
+  m_Name: RiverPath3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1965157686
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965157685}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -94.1, y: -4, z: 40.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1280209983}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1965157687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965157685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bffa8aa898b437183cd5617f7b5303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathName: RiverPath3
+  pathColor: {r: 0.9433962, g: 0.04004982, b: 0.04004982, a: 1}
+  nodes:
+  - {x: -103.457245, y: 7.462818, z: 177.63133}
+  - {x: -104.26489, y: 7.5, z: 136.07378}
+  - {x: -87.06186, y: 7.5, z: 118.304184}
+  - {x: -72.952034, y: 7.5, z: 118.116745}
+  - {x: -55.220825, y: 7.5, z: 128.19264}
+  - {x: -27.889174, y: 7.5, z: 108.541046}
+  - {x: 14.136475, y: 7.5, z: 103.93486}
+  - {x: 64.68344, y: 7.5, z: 95.008514}
+  - {x: 104.48506, y: 7.5, z: 70.49476}
+  - {x: 99.282455, y: 7.5, z: 20.618698}
+  - {x: 90.338104, y: 7.5, z: -16.03244}
+  - {x: 34.797607, y: 7.5, z: -22.245651}
+  - {x: 29.287928, y: 7.5, z: -58.88867}
+  - {x: -32.4, y: 7.5, z: -57.63948}
+  - {x: -55.200535, y: 7.5, z: -73.39058}
+  - {x: -83.537, y: 7.5, z: -73.68634}
+  - {x: -97.988686, y: 7.5, z: -33.609116}
+  - {x: -110.82472, y: 7.5, z: -1.9840393}
+  - {x: -136.81616, y: 7.5, z: 3.4815063}
+  - {x: -152.93341, y: 7.5, z: 22.941513}
+  - {x: -180.09102, y: 0, z: 30.36316}
+  nodeCount: 21
+  initialized: 1
+  initialName: New Path 1
+  pathVisible: 1
