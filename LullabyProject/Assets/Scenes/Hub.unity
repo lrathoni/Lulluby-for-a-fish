@@ -5338,7 +5338,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 317536373}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c834bc6d9cbd745bf852ca6c043bf857, type: 3}
   m_Name: 
@@ -53828,6 +53828,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6806445277774119158, guid: 5e72c11e429dc447ca76facfaeb61b4c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -6628177257332999415, guid: 5e72c11e429dc447ca76facfaeb61b4c,
         type: 3}
       propertyPath: m_IsActive
@@ -53837,7 +53842,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 8d77d5269b95b76428bfccdd479b8743, type: 2}
+      objectReference: {fileID: -8559731736929697333, guid: 5e72c11e429dc447ca76facfaeb61b4c,
+        type: 3}
     - target: {fileID: 919132149155446097, guid: 5e72c11e429dc447ca76facfaeb61b4c,
         type: 3}
       propertyPath: m_Name
@@ -53852,7 +53858,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: a89bbf338f16440d9a44eec39c234f5f, type: 2}
+      objectReference: {fileID: -8559731736929697333, guid: 5e72c11e429dc447ca76facfaeb61b4c,
+        type: 3}
     - target: {fileID: 3680775159966343353, guid: 5e72c11e429dc447ca76facfaeb61b4c,
         type: 3}
       propertyPath: m_IsActive
