@@ -1,4 +1,5 @@
 
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -31,6 +32,9 @@ namespace Interaction.Behaviour
             m_flutePlayer = userInterfaceObject.GetComponent<FlutePlayer>();
             Assert.IsNotNull(m_flutePlayer);
 
+            // Does not support adding modifiers at run-time.
+            m_rangeModifiers = GetComponents<AbstractInteractiveRangeModifier>();
+            
             m_isSet = true;
             
             Subscribe();
@@ -69,14 +73,27 @@ namespace Interaction.Behaviour
 
         void Subscribe()
         {
-            m_flutePlayer.AddOnNoteStartListener(OnNoteStart);
+            m_flutePlayer.AddOnNoteStartListener(OnNoteStartInternal);
             m_flutePlayer.AddOnNoteStopListener(OnNoteStop);
         }
 
         void EndSubscription()
         {
-            m_flutePlayer.RemoveOnNoteStartListener(OnNoteStart);
+            m_flutePlayer.RemoveOnNoteStartListener(OnNoteStartInternal);
             m_flutePlayer.RemoveOnNoteStopListener(OnNoteStop);
+        }
+
+        void OnNoteStartInternal(ENoteColour aNoteColour, MusicalNote note)
+        {
+            if (IsInRange())
+            {
+                OnNoteStart(aNoteColour, note);
+            }
+        }
+        
+        bool IsInRange()
+        {
+            return m_rangeModifiers.All(modifier => modifier.IsInRange(m_flutePlayer));
         }
 
         #endregion
@@ -85,6 +102,7 @@ namespace Interaction.Behaviour
         const string c_userInterfaceTag = "UserInterface";
         FlutePlayer m_flutePlayer;
 
+        AbstractInteractiveRangeModifier[] m_rangeModifiers;
         bool m_isSet;
 
         #endregion

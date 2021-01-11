@@ -143,6 +143,20 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &73430036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73430028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f6f73aa5894ebdae9af3f72fe2a191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteColour: 2
+  activateIntensity: 5.41
 --- !u!1001 &91628510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -887,6 +901,20 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &1412859419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412859411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f6f73aa5894ebdae9af3f72fe2a191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteColour: 1
+  activateIntensity: 5.41
 --- !u!1 &1439647936
 GameObject:
   m_ObjectHideFlags: 0
@@ -958,6 +986,51 @@ PrefabInstance:
         type: 3}
       propertyPath: m_UseGravity
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851326926840548819, guid: 7015e67026a23bc43bd3281cd7a26f7a,
+        type: 3}
+      propertyPath: maxDistance
+      value: 23.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851326926840548819, guid: 7015e67026a23bc43bd3281cd7a26f7a,
+        type: 3}
+      propertyPath: maxOffset
+      value: 0.113
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851326926840548819, guid: 7015e67026a23bc43bd3281cd7a26f7a,
+        type: 3}
+      propertyPath: hoverStrength
+      value: 3.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6658447278059685383, guid: 7015e67026a23bc43bd3281cd7a26f7a,
+        type: 3}
+      propertyPath: maxDistance
+      value: 23.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6658447278059685383, guid: 7015e67026a23bc43bd3281cd7a26f7a,
+        type: 3}
+      propertyPath: maxOffset
+      value: 0.113
+      objectReference: {fileID: 0}
+    - target: {fileID: 6658447278059685383, guid: 7015e67026a23bc43bd3281cd7a26f7a,
+        type: 3}
+      propertyPath: hoverStrength
+      value: 3.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341843760712423111, guid: 7015e67026a23bc43bd3281cd7a26f7a,
+        type: 3}
+      propertyPath: maxDistance
+      value: 23.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341843760712423111, guid: 7015e67026a23bc43bd3281cd7a26f7a,
+        type: 3}
+      propertyPath: maxOffset
+      value: 0.113
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341843760712423111, guid: 7015e67026a23bc43bd3281cd7a26f7a,
+        type: 3}
+      propertyPath: hoverStrength
+      value: 3.01
       objectReference: {fileID: 0}
     - target: {fileID: 8423145099770281699, guid: 7015e67026a23bc43bd3281cd7a26f7a,
         type: 3}
@@ -1049,3 +1122,17 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &1769691953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769691945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f6f73aa5894ebdae9af3f72fe2a191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteColour: 0
+  activateIntensity: 5.41
