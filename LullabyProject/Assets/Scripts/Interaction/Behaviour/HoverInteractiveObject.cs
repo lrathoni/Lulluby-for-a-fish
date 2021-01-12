@@ -5,10 +5,9 @@ using UnityEngine.Assertions;
 namespace Interaction.Behaviour
 {
     /// <summary>
-    /// An interactive object that hovers and lights up when activated.
-    /// Uses physics to animate and lighting.
+    /// An interactive object that hovers when activated.
+    /// Uses physics to animate. 
     /// </summary>
-    [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(Collider))]
     public class HoverInteractiveObject : AbstractSingleNoteInteractiveObject
     {
@@ -35,20 +34,20 @@ namespace Interaction.Behaviour
         }
 
         #endregion
-        #region AbstractSingleNoteInteractiveObject
+        #region AbstractSingleNoteInteractiveObject resolution
 
         protected override void Activate(MptUnity.Audio.MusicalNote note)
         {
-            m_rigidbody.AddForce(hoverDir * hoverStrength, ForceMode.Impulse);
-
-            m_rigidbody.useGravity = false;
+            ++m_ayyy; 
+            print($"Ayyyy: {m_ayyy}");
+            m_rigidbody.AddForce(hoverDir * hoverStrength, ForceMode.Force);
         }
 
         protected override void Deactivate(MptUnity.Audio.MusicalNote note)
         {
-            m_rigidbody.useGravity = true;
-            
-            m_rigidbody.AddForce(- hoverDir * hoverStrength, ForceMode.Impulse);
+            --m_ayyy;
+            print($"Nayyyy: {m_ayyy}");
+            m_rigidbody.AddForce(hoverDir * - hoverStrength, ForceMode.Force);
         }
         
         #endregion
@@ -57,6 +56,7 @@ namespace Interaction.Behaviour
         #endregion
         #region Private data
 
+        int m_ayyy;
         Rigidbody m_rigidbody;
 
         #endregion

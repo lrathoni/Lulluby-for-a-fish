@@ -2,6 +2,10 @@ using UnityEngine;
 
 namespace Interaction.Behaviour
 {
+    /// <summary>
+    /// An interactive object that lights up when activated.
+    /// Uses physics to animate. 
+    /// </summary>
     public class GlimmerInteractiveObject : AbstractSingleNoteInteractiveObject
     {
         #region Serialised data

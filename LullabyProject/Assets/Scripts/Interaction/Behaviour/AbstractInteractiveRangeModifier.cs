@@ -1,5 +1,7 @@
 using IO.Behaviour;
 
+using MptUnity.Audio;
+
 namespace Interaction.Behaviour
 {
     /// <summary>
@@ -9,7 +11,7 @@ namespace Interaction.Behaviour
     {
         #region To resolve
 
-        public abstract bool IsInRange(FlutePlayer flutePlayer);
+        public abstract bool IsInRange(FlutePlayer flutePlayer, MusicalNote note);
 
         #endregion
     }

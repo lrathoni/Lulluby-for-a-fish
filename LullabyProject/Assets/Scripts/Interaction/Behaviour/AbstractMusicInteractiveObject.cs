@@ -1,5 +1,8 @@
 
+using System;
 using System.Linq;
+using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -35,9 +38,41 @@ namespace Interaction.Behaviour
             // Does not support adding modifiers at run-time.
             m_rangeModifiers = GetComponents<AbstractInteractiveRangeModifier>();
             
+            m_outOfRangePlayingNotes = new List<Tuple<ENoteColour, MusicalNote>>();
+            m_inRangePlayingNotes = new List<Tuple<ENoteColour, MusicalNote>>();
+            
             m_isSet = true;
             
             Subscribe();
+        }
+
+
+        protected virtual void Update()
+        {
+            // Quick check to see if we can return early.
+            if (m_inRangePlayingNotes.Count == 0 && m_outOfRangePlayingNotes.Count == 0)
+            {
+                return;
+            }
+            // get all newly in-range and playing notes and call NoteStart event.
+            var newlyInRange = m_outOfRangePlayingNotes
+                    .FindAll(el => IsInRange(el.Item2));
+            newlyInRange.ForEach(el =>
+                    OnNoteStartInternal(el.Item1, el.Item2)
+                );
+            // get all newly out-of-range and playing notes and call NoteStop event.
+            var newlyOutOfRange = m_inRangePlayingNotes
+                    .FindAll(el => !IsInRange(el.Item2));
+            newlyOutOfRange
+                .ForEach(el =>
+                    OnNoteStopInternal(el.Item1, el.Item2)
+                );
+            // switch the appropriate notes to the other list.
+            m_inRangePlayingNotes.RemoveAll(el => newlyOutOfRange.Contains(el));
+            m_outOfRangePlayingNotes.RemoveAll(el => newlyInRange.Contains(el));
+            // 
+            m_inRangePlayingNotes.AddRange(newlyInRange);
+            m_outOfRangePlayingNotes.AddRange(newlyOutOfRange);
         }
 
         protected virtual void OnDestroy()
@@ -65,8 +100,8 @@ namespace Interaction.Behaviour
         #endregion
         #region To resolve
         
-        protected abstract void OnNoteStart(ENoteColour aNoteColour, MusicalNote note);
-        protected abstract void OnNoteStop(ENoteColour noteColour, MusicalNote note);
+        protected virtual void OnNoteStart(ENoteColour aNoteColour, MusicalNote note) { }
+        protected virtual void OnNoteStop(ENoteColour noteColour, MusicalNote note) { }
 
         #endregion
         #region Private utility
@@ -74,33 +109,49 @@ namespace Interaction.Behaviour
         void Subscribe()
         {
             m_flutePlayer.AddOnNoteStartListener(OnNoteStartInternal);
-            m_flutePlayer.AddOnNoteStopListener(OnNoteStop);
+            m_flutePlayer.AddOnNoteStopListener(OnNoteStopInternal);
         }
 
         void EndSubscription()
         {
             m_flutePlayer.RemoveOnNoteStartListener(OnNoteStartInternal);
-            m_flutePlayer.RemoveOnNoteStopListener(OnNoteStop);
+            m_flutePlayer.RemoveOnNoteStopListener(OnNoteStopInternal);
         }
 
         void OnNoteStartInternal(ENoteColour aNoteColour, MusicalNote note)
         {
-            if (IsInRange())
-            {
+            if (IsInRange(note))
+            { 
+                m_inRangePlayingNotes.Add(new Tuple<ENoteColour, MusicalNote>(aNoteColour, note));
                 OnNoteStart(aNoteColour, note);
             }
+            else
+            {
+                m_outOfRangePlayingNotes.Add(new Tuple<ENoteColour, MusicalNote>(aNoteColour, note));
+            }
+        }
+
+        void OnNoteStopInternal(ENoteColour aNoteColour, MusicalNote note)
+        {
+            // Remove it from the out-of-range of in-range list.
+            m_outOfRangePlayingNotes.RemoveAll(el => el.Item1 == aNoteColour);
+            m_inRangePlayingNotes.RemoveAll(el => el.Item1 == aNoteColour);
+            OnNoteStop(aNoteColour, note);
         }
         
-        bool IsInRange()
+        bool IsInRange(MusicalNote note)
         {
-            return m_rangeModifiers.All(modifier => modifier.IsInRange(m_flutePlayer));
+            return m_rangeModifiers.All(modifier => modifier.IsInRange(m_flutePlayer, note));
         }
 
         #endregion
         #region Private data
         
-        const string c_userInterfaceTag = "UserInterface";
         FlutePlayer m_flutePlayer;
+        const string c_userInterfaceTag = "UserInterface";
+
+        List<Tuple<ENoteColour, MusicalNote>> m_outOfRangePlayingNotes;
+        List<Tuple<ENoteColour, MusicalNote>> m_inRangePlayingNotes;
 
         AbstractInteractiveRangeModifier[] m_rangeModifiers;
         bool m_isSet;

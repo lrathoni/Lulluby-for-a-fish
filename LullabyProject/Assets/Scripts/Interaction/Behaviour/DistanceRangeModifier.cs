@@ -1,6 +1,7 @@
 
 using UnityEngine;
-using UnityEngine.Assertions;
+
+using MptUnity.Audio;
 using IO.Behaviour;
 
 namespace Interaction.Behaviour
@@ -15,7 +16,7 @@ namespace Interaction.Behaviour
         #endregion
         #region AbstractInteractiveRangeModifier resolution
 
-        public override bool IsInRange(FlutePlayer flutePlayer)
+        public override bool IsInRange(FlutePlayer flutePlayer, MusicalNote note)
         {
             return (flutePlayer.transform.position - gameObject.transform.position).magnitude <= maxDistance;
         }

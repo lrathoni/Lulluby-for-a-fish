@@ -1,6 +1,8 @@
 
 using UnityEngine;
 using UnityEngine.Assertions;
+
+using MptUnity.Audio;
 using IO.Behaviour;
 
 namespace Interaction.Behaviour
@@ -14,23 +16,31 @@ namespace Interaction.Behaviour
         [Range(0.0f, 0.5f)] public float maxOffset;
         
         #endregion
+
+        #region Unity MonoBehaviour events
+
+        void Start()
+        {
+            m_cam = Camera.main;
+            Assert.IsNotNull(m_cam);
+        }
+
+        #endregion
         #region AbstractInteractiveRangeModifier resolution
 
-        public override bool IsInRange(FlutePlayer flutePlayer)
+        public override bool IsInRange(FlutePlayer flutePlayer, MusicalNote note)
         {
-            Camera cam = Camera.main;
             // is not null, assert!
-            Assert.IsNotNull(cam);
-            Transform camTrans = cam.transform;
+            Transform camTrans = m_cam.transform;
 
             Vector3 vec = gameObject.transform.position - camTrans.position;
             
             // first check that it is in bounds
             // The offset is the projection of the vector on the camera surface
             // normalise it wrt. screen dimension
-            Vector3 proj = cam.WorldToViewportPoint(gameObject.transform.position);
+            Vector3 proj = m_cam.WorldToViewportPoint(gameObject.transform.position);
             Vector2 screenVecProj = new Vector2(proj.x - 0.5f, proj.y - 0.5f);
-            Debug.Log(screenVecProj);
+            
             if (proj.z < 0 || screenVecProj.magnitude > maxOffset)
             {
                 // Not a candidate. Return early, 
@@ -49,6 +59,12 @@ namespace Interaction.Behaviour
             // This is done so that we don't require the interactive object to have a collider.
             return !hasHit || hit.collider.gameObject == gameObject;
         }
+
+        #endregion
+
+        #region Private data
+
+        Camera m_cam;
 
         #endregion
     }
