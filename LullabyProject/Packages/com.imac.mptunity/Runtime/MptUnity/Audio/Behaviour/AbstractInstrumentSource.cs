@@ -51,10 +51,76 @@ namespace MptUnity.Audio.Behaviour
 
         #endregion
 
+        #region IAudioSource implementation
+
+        public bool IsPaused()
+        {
+            return GetPlaybackState() == EAudioPlaybackState.ePaused;
+        }
+
+        public bool IsPlaying()
+        {
+            return GetPlaybackState() == EAudioPlaybackState.ePlaying;
+        }
+
+        public bool IsStopped()
+        {
+            return GetPlaybackState() == EAudioPlaybackState.eStopped;
+        }
+
+        public void Pause()
+        {
+            UnityEngine.Assertions.Assert.IsTrue(IsReady());
+            SetPlaybackState(EAudioPlaybackState.ePaused);
+        }
+
+        public void Play()
+        {
+            UnityEngine.Assertions.Assert.IsTrue(IsReady());
+            SetPlaybackState(EAudioPlaybackState.ePlaying);
+        }
+
+        /// <summary>
+        /// Stops playback after having stopped the notes!
+        /// </summary>
+        public void Stop()
+        {
+            UnityEngine.Assertions.Assert.IsTrue(IsReady());
+            // Stop playback after dieTimeSeconds have passed.
+            /*
+            StartCoroutine(
+                DelayedCoroutine(
+                    () =>
+                    {
+                        SetPlaybackState(AudioPlaybackState.eStopped);
+                    },
+                    this,
+                    dieTimeSeconds
+                    )
+                );
+            */
+            SetPlaybackState(EAudioPlaybackState.eStopped);
+        }
+
+        void SetPlaybackState(EAudioPlaybackState state)
+        {
+            UnityEngine.Assertions.Assert.IsTrue(IsReady());
+
+            SetStreamState(state, m_state);
+            m_state = state;
+        }
+
+        public EAudioPlaybackState GetPlaybackState()
+        {
+            return m_state;
+        }
+
+        #endregion
+        
         #region IInstrumentSource implementation
 
 
-        public int PlayNote(MusicalNote note)
+        public int StartNote(MusicalNote note)
         {
             int voice = m_instrument.PlayNote(note);
             if (voice == -1)
@@ -71,7 +137,7 @@ namespace MptUnity.Audio.Behaviour
             return m_instrument.StopNote(voice);
         }
 
-        public bool CanPlay(MusicalNote note)
+        public bool CanStart(MusicalNote note)
         {
             return m_instrument.CanPlay(note);
         }
@@ -84,6 +150,11 @@ namespace MptUnity.Audio.Behaviour
         public MusicalNote GetNote(int voice)
         {
             return m_instrument.GetNote(voice);
+        }
+
+        public int GetNumberVoices()
+        {
+            return m_instrument.GetNumberVoices();
         }
 
         public int GetSpeed()
@@ -155,6 +226,36 @@ namespace MptUnity.Audio.Behaviour
         #endregion
 
         #region Utility
+        
+        /// <summary>
+        /// Update the internal streaming according to playback state.
+        /// </summary>
+        /// <param name="updated"></param>
+        /// <param name="previous"></param>
+        void SetStreamState(EAudioPlaybackState updated, EAudioPlaybackState previous)
+        {
+            switch (updated)
+            {
+            case EAudioPlaybackState.ePaused:
+                m_source.Pause();
+                break;
+            case EAudioPlaybackState.ePlaying:
+                if (previous == EAudioPlaybackState.eStopped)
+                {
+                    m_source.Play();
+                }
+                else
+                {
+                    m_source.UnPause();
+                }
+
+                break;
+            case EAudioPlaybackState.eStopped:
+                m_source.Stop();
+                break;
+            }
+        }
+        
         void Load(InstrumentFile instrumentFile, int numberVoices)
         {
             try
@@ -179,6 +280,7 @@ namespace MptUnity.Audio.Behaviour
         }
 
         #endregion
+        
         #region Protected data
 
         
@@ -189,10 +291,13 @@ namespace MptUnity.Audio.Behaviour
         protected readonly Events m_events;
 
         #endregion
+        
         #region Private data
 
         UnityEngine.AudioClip m_clip;
         UnityEngine.AudioSource m_source;
+
+        EAudioPlaybackState m_state;
         
         bool m_isReady;
 

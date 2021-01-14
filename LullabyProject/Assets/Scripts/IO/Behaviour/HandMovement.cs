@@ -31,8 +31,7 @@ public class HandMovement : MonoBehaviour
         m_flutePlayer = interfaceObject.GetComponent<FlutePlayer>();
         Assert.IsNotNull(m_flutePlayer);
 
-        m_flutePlayer.AddOnEnterStateListener(OnPlayerEnterState);
-        m_flutePlayer.AddOnNoteCommandReceiveListener(OnPlayerNoteCommandReceive);
+        // m_flutePlayer.AddOnStateEnterListener(OnPlayerEnterState);
         
         Camera cam = Camera.main;
         Assert.IsNotNull(cam);
@@ -41,13 +40,11 @@ public class HandMovement : MonoBehaviour
         // so that the movement is the same regardless of camera angle
         gameObject.transform.parent = m_cameraTransform;
         // Move it to rest position
-        ResetHandState(FlutePlayer.EPlayingState.eResting);
     }
 
     void OnDestroy()
     {
-        m_flutePlayer.RemoveOnEnterStateListener(OnPlayerEnterState);
-        m_flutePlayer.RemoveOnNoteCommandReceiveListener(OnPlayerNoteCommandReceive);
+        // m_flutePlayer.RemoveOnStateEnterListener(OnPlayerEnterState);
     }
     
     #endregion
@@ -61,54 +58,15 @@ public class HandMovement : MonoBehaviour
         transform.position = resultingPosition;
     }
 
-    void ResetHandState(FlutePlayer.EPlayingState playingState)
-    {
-        switch (playingState)
-        {
-           case FlutePlayer.EPlayingState.eResting:
-                MoveHand(restDistanceFromCamera);
-                break;
-           case FlutePlayer.EPlayingState.eStopped:
-                MoveHand(stopDistanceFromCamera);
-                break;
-        }
-    }
-    
     #endregion
     #region Flute event callbacks
 
-    void OnPlayerEnterState(FlutePlayer.EPlayingState state, FlutePlayer player)
-    {
-        ResetHandState(state);
-    }
-
-    
-    void OnPlayerNoteCommandReceive(FlutePlayer.NoteCommand command)
-    {
-        // todo: we have to start the animation here because
-        // there is no 'Getting ready to play a note' FlutePlayer.EPlayingState yet.
-        switch (command.kind)
-        {
-            case FlutePlayer.NoteCommand.Kind.eStart:
-                MoveHand(noteOffsets[(int)command.noteColour]);
-                break;
-           case FlutePlayer.NoteCommand.Kind.eStop:
-                if (m_flutePlayer.State != FlutePlayer.EPlayingState.ePlaying)
-                {
-                    MoveHand(stopDistanceFromCamera);
-                }
-                break;
-        }
-    }
-    
     #endregion
     #region Private data
 
     // cached, the both of them.
     FlutePlayer m_flutePlayer;
     Transform m_cameraTransform;
-
-    FlutePlayer.EPlayingState m_previousNotPlayingState;
 
     #endregion
 

@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
+using MptUnity.Audio;
+
 namespace Interaction.Behaviour
 {
     /// <summary>
@@ -19,6 +21,7 @@ namespace Interaction.Behaviour
         public float   hoverStrength = 3.0f;
 
         #endregion
+        
         #region Unity Monobehaviour events
         
         protected override void Start()
@@ -30,33 +33,30 @@ namespace Interaction.Behaviour
 
             hoverDir = hoverDir.normalized;
             
-            Deactivate(null);
         }
 
         #endregion
+        
         #region AbstractSingleNoteInteractiveObject resolution
 
-        protected override void Activate(MptUnity.Audio.MusicalNote note)
+        protected override void Activate(MusicalNote note)
         {
-            ++m_ayyy; 
-            print($"Ayyyy: {m_ayyy}");
+            print($"Started: {note.tone}");
+            m_rigidbody.useGravity = false;
             m_rigidbody.AddForce(hoverDir * hoverStrength, ForceMode.Force);
         }
 
-        protected override void Deactivate(MptUnity.Audio.MusicalNote note)
+        protected override void Deactivate(MusicalNote note)
         {
-            --m_ayyy;
-            print($"Nayyyy: {m_ayyy}");
+            print($"Stopped: {note.tone}"); 
+            m_rigidbody.useGravity = true;
             m_rigidbody.AddForce(hoverDir * - hoverStrength, ForceMode.Force);
         }
         
         #endregion
-        #region Private utility
-
-        #endregion
+        
         #region Private data
 
-        int m_ayyy;
         Rigidbody m_rigidbody;
 
         #endregion

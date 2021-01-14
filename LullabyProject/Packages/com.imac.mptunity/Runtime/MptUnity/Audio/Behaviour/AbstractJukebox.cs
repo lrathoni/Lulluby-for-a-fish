@@ -103,10 +103,7 @@ namespace MptUnity.Audio.Behaviour
 
         #endregion
 
-
-        #region IPlayable
-
-
+        #region IAudioSource
 
         public bool IsPaused()
         {
@@ -407,11 +404,16 @@ namespace MptUnity.Audio.Behaviour
 
         #endregion // Event Handling
 
-
         #region To resolve
 
+        protected abstract TMusic CreateMusic(byte[] data);
 
+        public abstract void OnAudioFilterRead(float[] data, int channels);
 
+        #endregion
+
+        #region Private utility
+        
         /// <summary>
         /// Update the internal streaming according to playback state.
         /// </summary>
@@ -440,15 +442,6 @@ namespace MptUnity.Audio.Behaviour
                 break;
             }
         }
-
-        protected abstract TMusic CreateMusic(byte[] data);
-
-    public abstract void OnAudioFilterRead(float[] data, int channels);
-
-        #endregion
-
-        #region Util 
-        
         
         void Load(MusicFile musicFile)
         {
@@ -483,6 +476,7 @@ namespace MptUnity.Audio.Behaviour
         }
 
         #endregion
+        
         #region Protected data 
 
             

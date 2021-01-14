@@ -42,6 +42,12 @@
 
         int GetNumberVoices();
 
+        /// <summary>
+        /// Get note currently playing at voice.
+        /// 
+        /// </summary>
+        /// <param name="voice">In [0, numberVoice-1]</param>
+        /// <returns></returns>
         MusicalNote GetNote(int voice);
 
         /// <summary>

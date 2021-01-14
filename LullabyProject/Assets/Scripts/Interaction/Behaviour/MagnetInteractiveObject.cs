@@ -35,7 +35,6 @@ namespace Interaction.Behaviour
             m_distanceRangeModifier = GetComponent<DistanceRangeModifier>();
             Assert.IsNotNull(m_distanceRangeModifier);
 
-            Deactivate(null);
         }
 
         #endregion
@@ -52,7 +51,6 @@ namespace Interaction.Behaviour
                 magnetStrength,
                 Mathf.InverseLerp(m_distanceRangeModifier.maxDistance, 0f, vec.magnitude)
             ); 
-            Debug.Log(vec);
             m_rigidbody.AddForce(vec * (strength * Time.smoothDeltaTime), ForceMode.Force);
         }
 

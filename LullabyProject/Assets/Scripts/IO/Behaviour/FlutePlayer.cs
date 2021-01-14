@@ -1,6 +1,4 @@
 ﻿
-using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
@@ -8,7 +6,9 @@ using UnityEngine.Events;
 using MptUnity.Audio.Behaviour;
 using MptUnity.Audio;
 
+using Menu;
 using Music;
+using StateMachine.Behaviour;
 
 namespace IO.Behaviour
 {
@@ -24,30 +24,19 @@ namespace IO.Behaviour
     public class OnPlayerNoteStopEvent : UnityEvent<ENoteColour , MusicalNote> { }
     
     /// <summary>
-    /// Event which gets trigger immediately when the FlutePlayer receives a NoteCommand.
-    /// Warning: the note may be invalid.
-    /// Can be used to animate the Flute.
-    /// See data available in NoteCommand class for details.
+    ///Can be used to animate objects based on the Flute.
     /// </summary>
-    public class OnPlayerNoteCommandReceiveEvent : UnityEvent<FlutePlayer.NoteCommand> {}
-    
+    public class OnPlayerStateEnterEvent : UnityEvent<AbstractFlutePlayerState> { }
     /// <summary>
-    /// Event which gets trigger when the FlutePlayer cancels a NoteCommand.
-    /// The argument is the NoteCommand which was cancelled.
-    /// Can be used to animate the Flute.
-    /// See data available in NoteCommand class for details.
+    ///Can be used to animate objects based on the Flute.
     /// </summary>
-    public class OnPlayerNoteCommandCancelEvent : UnityEvent<FlutePlayer.NoteCommand> { }
-    
-    /// <summary>
-    ///Can be used to animate the Flute.
-    /// </summary>
-    public class OnPlayerEnterStateEvent : UnityEvent<FlutePlayer.EPlayingState, FlutePlayer> { }
+    public class OnPlayerStateExitEvent : UnityEvent<AbstractFlutePlayerState> { }
 
     /// <summary>
     /// A class for the Instrument playing component of the Player.
     /// Watch for notes playing with OnPlayerNoteStartEvent and OnPLayerNoteStopEvent.
     /// </summary>
+    [RequireComponent(typeof(Animator))]
     public class FlutePlayer : UnityEngine.MonoBehaviour
     {
 
@@ -57,24 +46,6 @@ namespace IO.Behaviour
         
         public KeyCode[] keys;
         public int[] tones;
-
-        /// <summary>
-        /// Delay before starting playing the Flute.
-        /// </summary>
-        public float delayStart = 0.5F;
-        /// <summary>
-        /// Delay before switching notes while playing.
-        /// </summary>
-        public float delaySwitch = 0.0F;
-        /// <summary>
-        /// Delay before stopping playing the note.
-        /// </summary>
-        public float delayStop = 0.2F;
-
-        /// <summary>
-        /// Delay before 'Resting' state.
-        /// </summary>
-        public float delayRest = 1.0F;
 
         [Range(0L, 1L)] 
         public double volume = 1L;
@@ -86,8 +57,6 @@ namespace IO.Behaviour
         void Awake()
         {
             m_events = new Events();
-
-            m_noteCommandQueue = new List<NoteCommand>();
         }
 
         void Start()
@@ -95,260 +64,182 @@ namespace IO.Behaviour
             Assert.IsTrue(NoteColours.GetNumber() == keys.Length && keys.Length == tones.Length,
                 "Keys must of the same length, and correspond to NoteColours.");
 
-            StopVoice();            
-            State = EPlayingState.eResting;
-            
             SetupAudio();
+
+            SetupState();
+
+            SetupPauseMenu();
+        }
+
+        void OnDestroy()
+        {
+            FreePauseMenu(); 
         }
 
         void Update()
         {
-            UpdateInput();
-            
-            UpdateCommandQueue();
-
-            UpdateState();
-        }
-
-        #endregion
-        #region Update routine
-
-        void UpdateInput()
-        {
             for (int toneIndex = 0; toneIndex < tones.Length; ++toneIndex)
             {
                 KeyCode key = keys[toneIndex];
+                ENoteColour colour = (ENoteColour) toneIndex;
                 if (Input.GetKeyDown(key))
                 {
-                    AddNoteCommand(new NoteStartDelayedCommand(this, (ENoteColour)toneIndex, Time.time));
+                    int tone = tones[toneIndex];
+                    TriggerNoteStart(colour, new MusicalNote(tone, volume));
                 }
                 else if (Input.GetKeyUp(key))
                 {
-                    AddNoteCommand(new NoteStopDelayedCommand(this, (ENoteColour)toneIndex, Time.time));
+                    TriggerNoteStop(colour);
                 }
             }
         }
 
+        #endregion
+
+        #region StateMachine routine
+
+        void SetupState()
+        {
+            m_animator = GetComponent<Animator>();
+            Assert.IsNotNull(m_animator);
+            var allStates = m_animator.GetBehaviours<AbstractFlutePlayerState>();
+            foreach (var state in allStates)
+            {
+               state.SetOwner(this);
+            }
+        }
+
+        public void SignalStateEnterEvent(AbstractFlutePlayerState state)
+        {
+            m_events.playerStateEnterEvent.Invoke(state);
+        }
+
+        public void SignalStateExitEvent(AbstractFlutePlayerState state)
+        {
+           m_events.playerStateExitEvent.Invoke(state); 
+        }
+
+        void TriggerNoteStart(ENoteColour colour, MusicalNote note)
+        {
+            // Pass info to the StateMachine through the Animator.
+            m_animator.SetInteger("NoteColour", (int)colour);
+            m_animator.SetInteger("NoteTone", note.tone);
+            m_animator.SetFloat("NoteVolume", (float)note.volume);
+            m_animator.SetFloat("NotePanning", (float)note.panning);
+            // Triggering the transition to the Playing state!
+            m_animator.ResetTrigger("TNoteStopped");
+            m_animator.SetTrigger("TNoteStarted");
+        }
+
+        void TriggerNoteStop(ENoteColour colour)
+        {
+            m_animator.SetInteger("NoteColour", (int)colour);
+            // Triggering the transition to the Stopped state!
+            m_animator.ResetTrigger("TNoteStarted");
+            m_animator.SetTrigger("TNoteStopped");
+           
+        }
         /// <summary>
         /// 
         /// </summary>
-        /// <remarks>Requires that m_noteCommandQueue be sorted by ascending time of issuing.</remarks>
-        void UpdateCommandQueue()
+        /// <returns>true on success, false on failure.</returns>
+        public bool StopNote(ENoteColour colour)
         {
-            SortCommandQueue();
-            
-            while ( m_noteCommandQueue.Count > 0
-                && m_noteCommandQueue[0].ShouldExecute(Time.time)
-                )
+            int voice = GetPlayingVoice(colour);
+            Assert.IsTrue(voice >= 0 && voice < m_instrumentSource.GetNumberVoices());
+            MusicalNote note = m_instrumentSource.GetNote(voice);
+            bool success = m_instrumentSource.StopNote(voice);
+            if (success)
             {
-                ExecuteFirstInLineCommand();
+                SetPlayingVoice(colour, -1);
+                m_events.playerNoteStopEvent.Invoke(colour, note);
             }
+            return success;
         }
 
-        void UpdateState()
+        public bool PlayNote(ENoteColour colour, MusicalNote note)
         {
-            if (State == EPlayingState.eStopped && Time.time > m_timeStopped + delayRest)
+            int voice = m_instrumentSource.StartNote(note);
+            bool success = voice != -1;
+            if (success)
             {
-                State = EPlayingState.eResting;
+                SetPlayingVoice(colour, voice);
+                m_events.playerNoteStartEvent.Invoke(colour, note);
             }
+            return success;
         }
 
         #endregion
 
-        #region Command queue operations
+        #region Pause Menu stuff
 
-        void AddNoteCommand(NoteCommand command)
+        void SetupPauseMenu()
         {
-            m_noteCommandQueue.Add(command);
+            
+            var gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
+            Assert.IsNotNull(gameManagerObject);
+            m_pauseMenu = gameManagerObject.GetComponent<PauseMenu>();
+            Assert.IsNotNull(m_pauseMenu);
+            
+            Subscribe();
+        }
 
-            var first = m_noteCommandQueue[0];
-            SortCommandQueue();
-            // Invoke with the next relevant command!
-            if (first != m_noteCommandQueue[0] || first == command)
+        void FreePauseMenu()
+        {
+            Unsubscribe();
+        }
+
+        void OnPauseMenu(bool isPaused)
+        {
+            if (isPaused)
             {
-                m_events.playerNoteCommandReceiveEvent.Invoke(m_noteCommandQueue[0]);            
+                m_instrumentSource.Pause();
+            }
+            else
+            {
+                m_instrumentSource.Play();
             }
         }
+        
 
-        void SortCommandQueue()
+        void Subscribe()
         {
-            // Sort by expected execution time
-            m_noteCommandQueue.Sort((c1, c2) =>
-                {
-                    float interval = c1.GetExecutionTime() - c2.GetExecutionTime();
-                    if (interval > 0) return 1;
-                    if (interval < 0) return -1;
-                    return 0;
-                }
-            );
-            
-            //Cancel the commands if necessary:
-            // A command should be cancelled if the one which should be executed before
-            // has been issued after the first.
-            int i = 0;
-            while (i < m_noteCommandQueue.Count - 1)
-            {
-                var current = m_noteCommandQueue[i];
-                var next = m_noteCommandQueue[i + 1];
-                if (current.ShouldCancel(next))
-                {
-                    m_noteCommandQueue.RemoveAt(i + 1);
-                }
-                else
-                {
-                    ++i;
-                }
-            }
+            m_pauseMenu.AddOnPauseMenuListener(OnPauseMenu);
+        }
+        
+        void Unsubscribe()
+        {
+            m_pauseMenu.RemoveOnPauseMenuListener(OnPauseMenu);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        void ExecuteFirstInLineCommand()
-        {
-            Assert.IsTrue(m_noteCommandQueue.Count > 0);
-            // requires that m_noteCommandQueue be sorted by ascending order of execution time.
-            var first = m_noteCommandQueue[0];
-            
-            m_noteCommandQueue.RemoveAt(0);
-            
-            first.Execute();
-            
-            if (m_noteCommandQueue.Count > 0)
-            {
-               m_events.playerNoteCommandReceiveEvent.Invoke(m_noteCommandQueue[0]); 
-            }
-        }
-
-        #endregion
-        #region Playing routine
-
-        bool StopNoteNow(ENoteColour colour)
-        {
-            if (m_playingVoice == -1 || m_playingNoteColour != colour)
-            {
-                // failure.
-                return false;
-            }
-            // Get the note BEFORE stopping it!
-            MusicalNote note = m_instrumentSource.GetNote(m_playingVoice);
-
-            bool success = m_instrumentSource.StopNote(m_playingVoice);
-            Assert.IsTrue(success, "Call to StopNoteNow should not fail at this point.");
-            
-            // resetting voice and toneIndex.
-            StopVoice();
-            State = EPlayingState.eStopped;
-            
-            // Notifying the listeners that the note just stopped.
-            m_events.playerNoteStopEvent.Invoke(colour, note);
-            
-            return true;
-        }
-
-        /// <summary>
-        /// Stop note without changing the state .
-        /// To be used to switch between two playing notes. 
-        /// </summary>
-        /// <param name="colour"></param>
-        /// <returns></returns>
-        /// <remarks> </remarks>
-        bool StopNoteNowKeepState(ENoteColour colour)
-        {
-            if (m_playingVoice == -1 || m_playingNoteColour != colour)
-            {
-                // failure.
-                return false;
-            }
-            // Get the note BEFORE stopping it!
-            MusicalNote note = m_instrumentSource.GetNote(m_playingVoice);
-
-            bool success = m_instrumentSource.StopNote(m_playingVoice);
-            Assert.IsTrue(success, "Call to StopNoteNow should not fail at this point.");
-            
-            // resetting voice and toneIndex.
-            StopVoice();
-            
-            // Notifying the listeners that the note just stopped.
-            m_events.playerNoteStopEvent.Invoke(colour, note);
-            
-            return true;
-        }
-
-        int PlayNoteNow(ENoteColour colour)
-        {
-            
-            // We can't have multiple tones playing in the same voice.
-            StopNoteNowKeepState(m_playingNoteColour);
-            //
-            int tone = tones[(int)colour];
-            //
-            int voice = m_instrumentSource.PlayNote(new MusicalNote(tone, volume));
-
-            if (voice == -1)
-            {
-                // failure.
-                return voice;
-            }
-
-            m_playingVoice = voice;
-            m_playingNoteColour = colour;
-            State = EPlayingState.ePlaying;
-
-            // Notifying the listeners that a note is being played.
-            m_events.playerNoteStartEvent.Invoke(colour, m_instrumentSource.GetNote(voice));
-            
-            return voice;
-        }
-
-        #endregion
-        #region State
-        public enum EPlayingState
-        {
-            ePlaying,
-            eStopped,
-            eGettingReady, // todo: should free us from using NoteCommand event for animations.
-            eResting
-        }
-
-        public EPlayingState State
-        {
-            get => m_state;
-            private set
-            {
-                if (value == m_state)
-                {
-                    return;
-                }
-                m_state = value;
-                if (m_state == EPlayingState.eStopped)
-                {
-                    m_timeStopped = Time.time;
-                }
-                // Notify!
-                m_events.playerEnterStateEvent.Invoke(m_state, this);
-            }
-        }
         #endregion
 
         #region Private utility
 
-        void StopVoice()
-        {
-            // resetting the playing voice 
-            m_playingVoice = -1;
-        }
-        
         void SetupAudio()
         {
             m_instrumentSource = instrumentSourceObject.GetComponent<IInstrumentSource>();
-            
+            m_playingVoices = new int[NoteColours.GetNumber()];
+            for (int i = 0; i < m_playingVoices.Length; ++i)
+            {
+                m_playingVoices[i] = -1;
+            }
             // Force a number of voices
             // Two might yield better results than only one (hopefully).
             if (m_instrumentSource.NumberVoices < 2)
             {
                 m_instrumentSource.NumberVoices = 2; 
             }
+        }
+
+        int GetPlayingVoice(ENoteColour colour)
+        {
+            return m_playingVoices[(int) colour];
+        }
+
+        void SetPlayingVoice(ENoteColour colour, int voice)
+        {
+            m_playingVoices[(int) colour] = voice;
         }
         
 
@@ -360,17 +251,15 @@ namespace IO.Behaviour
         {
             public readonly OnPlayerNoteStartEvent playerNoteStartEvent;
             public readonly OnPlayerNoteStopEvent playerNoteStopEvent;
-            public readonly OnPlayerNoteCommandReceiveEvent playerNoteCommandReceiveEvent;
-            public readonly OnPlayerNoteCommandCancelEvent playerNoteCommandCancelEvent;
-            public readonly OnPlayerEnterStateEvent playerEnterStateEvent;
+            public readonly OnPlayerStateEnterEvent playerStateEnterEvent;
+            public readonly OnPlayerStateExitEvent playerStateExitEvent;
 
             public Events()
             {
                 playerNoteStartEvent = new OnPlayerNoteStartEvent();
                 playerNoteStopEvent  = new OnPlayerNoteStopEvent();
-                playerNoteCommandReceiveEvent  = new OnPlayerNoteCommandReceiveEvent();
-                playerNoteCommandCancelEvent = new OnPlayerNoteCommandCancelEvent();
-                playerEnterStateEvent = new OnPlayerEnterStateEvent();
+                playerStateEnterEvent = new OnPlayerStateEnterEvent();
+                playerStateExitEvent = new OnPlayerStateExitEvent();
             }
         }
 
@@ -394,203 +283,39 @@ namespace IO.Behaviour
             m_events.playerNoteStopEvent.RemoveListener(onNoteStop);
         }
         
-        public void AddOnNoteCommandReceiveListener(UnityAction<NoteCommand> onNoteCommandReceive)
+        public void AddOnStateEnterListener(UnityAction<AbstractFlutePlayerState> onStateEnter)
         {
-            m_events.playerNoteCommandReceiveEvent.AddListener(onNoteCommandReceive);
-        }
-
-        public void RemoveOnNoteCommandReceiveListener(UnityAction<NoteCommand> onNoteCommandReceive)
-        {
-            m_events.playerNoteCommandReceiveEvent.RemoveListener(onNoteCommandReceive);
+            m_events.playerStateEnterEvent.AddListener(onStateEnter);
         }
         
-        public void AddOnNoteCommandCancelListener(UnityAction<NoteCommand> onNoteCommandCancel)
+        public void RemoveOnStateEnterListener(UnityAction<AbstractFlutePlayerState> onStateEnter)
         {
-            m_events.playerNoteCommandCancelEvent.AddListener(onNoteCommandCancel);
-        }
-
-        public void RemoveOnNoteCommandCancelListener(UnityAction<NoteCommand> onNoteCommandCancel)
-        {
-            m_events.playerNoteCommandCancelEvent.RemoveListener(onNoteCommandCancel);
-        }
-
-        public void AddOnEnterStateListener(UnityAction<EPlayingState, FlutePlayer> onEnterState)
-        {
-            m_events.playerEnterStateEvent.AddListener(onEnterState);
+            m_events.playerStateEnterEvent.RemoveListener(onStateEnter);
         }
         
-        public void RemoveOnEnterStateListener(UnityAction<EPlayingState, FlutePlayer> onEnterState)
+        public void AddOnStateLeaveListener(UnityAction<AbstractFlutePlayerState> onStateLeave)
         {
-            m_events.playerEnterStateEvent.RemoveListener(onEnterState);
+            m_events.playerStateExitEvent.AddListener(onStateLeave);
+        }
+        
+        public void RemoveOnStateLeaveListener(UnityAction<AbstractFlutePlayerState> onStateLeave)
+        {
+            m_events.playerStateExitEvent.RemoveListener(onStateLeave);
         }
         
         #endregion
-
-        #region Note Commands
-
-        public abstract class NoteCommand
-        {
-            public enum Kind
-            {
-                eStart,
-                eStop
-            }
-            protected NoteCommand(FlutePlayer a_owner, ENoteColour aNoteColour, Kind aKind, float aTimeIssued)
-            {
-                owner = a_owner;
-                noteColour = aNoteColour;
-                timeIssued = aTimeIssued;
-                kind = aKind;
-            }
-            
-            public abstract void Execute();
-
-            /// <summary>
-            /// Should the command cancel the other?
-            /// </summary>
-            /// <param name="other"></param>
-            /// <returns></returns>
-            public virtual bool ShouldCancel(NoteCommand other)
-            {
-                return GetExecutionTime() < other.GetExecutionTime()
-                       && timeIssued > other.timeIssued;
-            }
-
-            /// <summary>
-            /// Should the command be executed, now that it is next in line?
-            /// </summary>
-            /// <returns></returns>
-            public bool ShouldExecute(float currentTime)
-            {
-                return currentTime > GetExecutionTime();
-            }
-
-            /// <summary>
-            /// Time at which the command should be executed.
-            /// Should (probably) only be used for ordering CommandQueue.
-            /// </summary>
-            /// <returns>Time at which the command should executed</returns>
-            public abstract float GetExecutionTime();
-
-            public readonly Kind kind;
-            public readonly float timeIssued;
-            public readonly ENoteColour noteColour;
-
-            protected readonly FlutePlayer owner;
-        }
-
-        class NoteStartCommand : NoteCommand
-        {
-            protected NoteStartCommand(FlutePlayer owner, ENoteColour noteColour, float timeIssued) 
-                : base(owner, noteColour, Kind.eStart, timeIssued)
-            {
-                
-            }
-
-            public override float GetExecutionTime()
-            {
-                // exactly when it was issued.
-                return timeIssued;
-            }
-
-            public override bool ShouldCancel(NoteCommand other)
-            {
-                // only one NoteStart at a time!
-                return base.ShouldCancel(other) || other.kind == Kind.eStart;
-            }
-
-            public override void Execute()
-            {
-                int voice = owner.PlayNoteNow(noteColour);
-                if (voice != -1)
-                {
-                    // UnityEngine.Debug.Log($"{voice} Started playing!");
-                }
-            }
-
-        }
-
-        class NoteStopCommand : NoteCommand
-        {
-            protected NoteStopCommand(FlutePlayer owner, ENoteColour noteColour, float timeIssued) 
-                : base(owner, noteColour, Kind.eStop, timeIssued)
-            {
-                
-            }
-
-            public override bool ShouldCancel(NoteCommand other)
-            {
-                // Should cancel a NoteStart only if it is commanding the same toneIndex.
-                return base.ShouldCancel(other) 
-                       && other.kind == Kind.eStart && other.noteColour == noteColour;
-            }
-
-            public override float GetExecutionTime()
-            {
-                return timeIssued;
-            }
-
-            public override void Execute()
-            {
-                bool success = owner.StopNoteNow(noteColour);
-                if (success)
-                {
-                    // UnityEngine.Debug.Log($"Stopped playing!");
-                }
-            }
-        }
-
-        class NoteStartDelayedCommand : NoteStartCommand
-        {
-
-            public NoteStartDelayedCommand(FlutePlayer owner, ENoteColour noteColour, float timeIssued)
-                : base(owner, noteColour, timeIssued)
-            {
-            }
-            public override float GetExecutionTime()
-            {
-                float executionTime = base.GetExecutionTime();
-                switch (owner.State)
-                {
-                    case EPlayingState.ePlaying: 
-                    case EPlayingState.eStopped: executionTime += owner.delaySwitch; break;
-                    case EPlayingState.eResting: executionTime += owner.delayStart; break;
-                }
-                return executionTime;
-            }
-
-        }
-
-        class NoteStopDelayedCommand : NoteStopCommand
-        {
-            public NoteStopDelayedCommand(FlutePlayer owner, ENoteColour noteColour, float timeIssued)
-                : base(owner, noteColour, timeIssued)
-            {
-            }
-
-            public override float GetExecutionTime()
-            {
-                return base.GetExecutionTime() + owner.delayStop;
-            }
-
-        }
-        #endregion
-        
-
 
         #region Private data 
 
         IInstrumentSource m_instrumentSource;
 
-        ENoteColour m_playingNoteColour;
-        int m_playingVoice;
+        AbstractFlutePlayerState m_state;
+        
+        int[] m_playingVoices;
         
         Events m_events;
-
-        List<NoteCommand> m_noteCommandQueue;
-
-        EPlayingState m_state;
-        float m_timeStopped;
+        Animator m_animator;
+        PauseMenu m_pauseMenu;
 
         #endregion
     }

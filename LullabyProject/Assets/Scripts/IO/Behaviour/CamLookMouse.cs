@@ -1,5 +1,8 @@
 
 using UnityEngine;
+using UnityEngine.Assertions;
+
+using Menu;
 
 namespace IO.Behaviour
 {
@@ -11,9 +14,20 @@ namespace IO.Behaviour
         public float maxUpAngle = 90f;
         public float minUpAngle = -90f;
 
+        #region MonoBehaviour events
+
+        
+
         void Start()
         {
             m_eulerAngles = transform.localEulerAngles;
+
+            var gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
+            Assert.IsNotNull(gameManagerObject);
+            m_pauseMenu = gameManagerObject.GetComponent<PauseMenu>();
+            Assert.IsNotNull(m_pauseMenu);
+            
+            Subscribe();
         }
 
         void Update()
@@ -32,6 +46,7 @@ namespace IO.Behaviour
 
         void OnDestroy() {
             UnHideCursor();
+            Unsubscribe();
         }
 
         void OnEnable()
@@ -45,6 +60,28 @@ namespace IO.Behaviour
             // Hide mouse cursor.
             UnHideCursor();
         }
+        
+        #endregion
+
+        #region Miscellaneous events
+        
+        void OnPauseMenu(bool isPaused)
+        {
+            this.enabled = !isPaused;
+        }
+
+        void Subscribe()
+        {
+            m_pauseMenu.AddOnPauseMenuListener(OnPauseMenu);
+        }
+
+        void Unsubscribe()
+        {
+            m_pauseMenu.RemoveOnPauseMenuListener(OnPauseMenu);
+        }
+        #endregion
+
+        #region Private utility
         
         // Save the previous state of the cursor
         void HideCursor()
@@ -60,11 +97,19 @@ namespace IO.Behaviour
             Cursor.lockState = m_previousMode;
             Cursor.visible = m_previousVisibility;
         }
+        
+        #endregion
+
+        #region Private data
 
         CursorLockMode m_previousMode;
+
+        PauseMenu m_pauseMenu;
         bool m_previousVisibility;
 
         Vector3 m_eulerAngles;
+        
+        #endregion
 
     }
 }

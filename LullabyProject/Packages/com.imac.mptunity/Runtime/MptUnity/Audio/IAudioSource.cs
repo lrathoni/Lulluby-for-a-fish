@@ -9,7 +9,7 @@
         ePaused,
     }
     
-    public interface IPlayable
+    public interface IAudioSource
     {
         
 

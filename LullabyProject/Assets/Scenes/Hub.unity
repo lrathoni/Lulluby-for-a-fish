@@ -521,6 +521,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6674997993141940661, guid: ab183d938be3bdc478b5153c94115aa9,
+        type: 3}
+      propertyPath: m_TagString
+      value: GameManager
+      objectReference: {fileID: 0}
     - target: {fileID: 6674997993141940666, guid: ab183d938be3bdc478b5153c94115aa9,
         type: 3}
       propertyPath: pauseMenu
@@ -1146,7 +1151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6221a56c3ce949408b82c31fbbe3e7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistance: 1
+  maxDistance: 7.85
 --- !u!114 &1769691952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1177,5 +1182,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noteColour: 0
   magnetRelativePos: {x: 0, y: 1, z: 1}
-  magnetStrength: 2
-  magnetRange: 5
+  magnetStrength: 4.14
