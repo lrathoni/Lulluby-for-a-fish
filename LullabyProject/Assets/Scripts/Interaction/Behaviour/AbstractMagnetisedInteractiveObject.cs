@@ -39,7 +39,7 @@ namespace Interaction.Behaviour
         
         #region AbstractSingleNoteInteractiveObject resolution
 
-        protected sealed override void Activate(MptUnity.Audio.MusicalNote note)
+        protected override void Activate(MptUnity.Audio.MusicalNote note)
         {
             m_previousUseGravity = m_rigidbody.useGravity;
             m_previousDrag = m_rigidbody.drag;
@@ -48,16 +48,23 @@ namespace Interaction.Behaviour
             m_rigidbody.drag = objectDrag;
         }
 
-        protected sealed override void Deactivate(MptUnity.Audio.MusicalNote note)
+        protected override void Deactivate(MptUnity.Audio.MusicalNote note)
         {
             m_rigidbody.useGravity = m_previousUseGravity;
             m_rigidbody.drag = m_previousDrag;
         }
 
-        protected sealed override void FixedUpdateActive()
+        protected override void FixedUpdateActive()
         {
-            Vector3 magnetVec = GetMagnetVector();
+            ApplyMagnet(GetMagnetVector());
+        }
 
+        #endregion
+        
+        #region Private utility
+
+        void ApplyMagnet(Vector3 magnetVec)
+        {
             float r = magnetVec.magnitude;
             float amp = strength;
             // smoothing things over, so that the magnet's position is a resting position.
@@ -65,12 +72,7 @@ namespace Interaction.Behaviour
                 ? 1f / (r * r)
                 : r;
             m_rigidbody.AddForce(magnetVec.normalized * (Time.smoothDeltaTime * amp), ForceMode.Impulse);
-            
         }
-
-        #endregion
-        
-        #region Private utility
 
         #endregion
         

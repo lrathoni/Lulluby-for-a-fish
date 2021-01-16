@@ -919,6 +919,11 @@ PrefabInstance:
       propertyPath: objectDrag
       value: 2.2
       objectReference: {fileID: 0}
+    - target: {fileID: 1577403568712050292, guid: 7015e67026a23bc43bd3281cd7a26f7a,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8423145099770281699, guid: 7015e67026a23bc43bd3281cd7a26f7a,
         type: 3}
       propertyPath: m_LocalPosition.x
