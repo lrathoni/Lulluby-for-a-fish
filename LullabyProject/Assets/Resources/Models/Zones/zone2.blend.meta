@@ -3,7 +3,52 @@ guid: b236c41a878df4a18871d0c673cab70d
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Barrel
+    second: {fileID: 2100000, guid: 972a477a19e08b04a82bf8f9d737c0b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Blue
+    second: {fileID: 2100000, guid: 3ba8954f9543a014883247fb9d958fa9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Blue Crystal
+    second: {fileID: 2100000, guid: 2f2f8700405e6f54a8db8fa8dc8860e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Red
+    second: {fileID: 2100000, guid: bd6ba8973b445654784fd4a05610064e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Red Crystal
+    second: {fileID: 2100000, guid: d21d260975831714f837197be5c31b04, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rock Wall
+    second: {fileID: 2100000, guid: 7aae8dc7439f91a4ebb9c35035bd5e6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wood_Barrel
+    second: {fileID: 2100000, guid: 9dff1eb314662134587d0bfa9fc0ba54, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Yellow Crystal
+    second: {fileID: 2100000, guid: b77aa364cfefd81418a2c3d9a8cf9f88, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: yellow
+    second: {fileID: 2100000, guid: ab052b1b82bbf6745aa330ef6840b1c3, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
