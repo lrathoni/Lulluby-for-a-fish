@@ -88883,7 +88883,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOpen: 0
-  speed: 0
 --- !u!208 &47001147967131183
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -90451,6 +90450,8 @@ GameObject:
   - component: {fileID: 6773662814796280798}
   - component: {fileID: 7002778855074426969}
   - component: {fileID: 4776162478617307923}
+  - component: {fileID: 357038452435821350}
+  - component: {fileID: 357038452435821349}
   m_Layer: 0
   m_Name: Cylinder.005
   m_TagString: Untagged
@@ -90458,6 +90459,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!208 &357038452435821349
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357038452435821348}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 37.249, y: 1.023, z: 5.782}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 31.271002, y: -0.51600003, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!114 &357038452435821350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357038452435821348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f3d82503a2fdc45be879632900a850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOpen: 0
 --- !u!23 &358189550842125165
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -90621,6 +90651,7 @@ GameObject:
   - component: {fileID: 6071334680118729805}
   - component: {fileID: 8719881267941401318}
   - component: {fileID: 2083582121232106185}
+  - component: {fileID: 374292392077803951}
   m_Layer: 0
   m_Name: InterruptorY
   m_TagString: Untagged
@@ -90628,6 +90659,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &374292392077803951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374292392077803950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23a42494f5e57374cb493754e401c438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doors:
+  - {fileID: 6527727968350064173}
+  - {fileID: 1237917201290246343}
+  - {fileID: 7701762833796528640}
 --- !u!33 &379505148717111381
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -95377,6 +95424,8 @@ GameObject:
   - component: {fileID: 8865156802796456231}
   - component: {fileID: 2723336841472426645}
   - component: {fileID: 2066641452095779623}
+  - component: {fileID: 1237917201290246345}
+  - component: {fileID: 1237917201290246344}
   m_Layer: 0
   m_Name: Cylinder.008
   m_TagString: Untagged
@@ -95384,6 +95433,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!208 &1237917201290246344
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237917201290246343}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 37.249, y: 1.023, z: 5.782}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 31.271002, y: -0.51600003, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!114 &1237917201290246345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237917201290246343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f3d82503a2fdc45be879632900a850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOpen: 1
 --- !u!1 &1243089798230481076
 GameObject:
   m_ObjectHideFlags: 0
@@ -95594,7 +95672,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7701762833796528640}
   m_LocalRotation: {x: -0.0000000042160826, y: 0.000000004216082, z: -0.7071067, w: 0.7071068}
-  m_LocalPosition: {x: 128.62811, y: 48.8567, z: -98.53492}
+  m_LocalPosition: {x: 128.62811, y: 49, z: -98.53492}
   m_LocalScale: {x: -0.07898729, y: -0.08267053, z: -0.4874954}
   m_Children: []
   m_Father: {fileID: 153926340}
@@ -96536,7 +96614,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4769222043722990947}
   m_LocalRotation: {x: -0.5000001, y: 0.5000001, z: 0.4999999, w: -0.49999988}
-  m_LocalPosition: {x: 111.98399, y: 48.8567, z: -103.272896}
+  m_LocalPosition: {x: 111.98399, y: 49, z: -103.272896}
   m_LocalScale: {x: -0.07898731, y: -0.08267055, z: -0.4874954}
   m_Children: []
   m_Father: {fileID: 275568804}
@@ -97740,6 +97818,8 @@ GameObject:
   - component: {fileID: 9171089456215411546}
   - component: {fileID: 8985315036832272347}
   - component: {fileID: 4185345169724065130}
+  - component: {fileID: 1676767478362603797}
+  - component: {fileID: 1676767478362603796}
   m_Layer: 0
   m_Name: Cylinder.006
   m_TagString: Untagged
@@ -97747,6 +97827,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!208 &1676767478362603796
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676767478362603795}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 37.249, y: 1.023, z: 5.782}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 31.271002, y: -0.51600003, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!114 &1676767478362603797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676767478362603795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f3d82503a2fdc45be879632900a850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOpen: 0
 --- !u!4 &1679310972632701495
 Transform:
   m_ObjectHideFlags: 0
@@ -105174,7 +105283,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOpen: 1
-  speed: 0
 --- !u!208 &2998195918776077635
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -109326,7 +109434,6 @@ GameObject:
   - component: {fileID: 8477348404835127345}
   - component: {fileID: 3202356980347065631}
   - component: {fileID: 3714503983782827623}
-  - component: {fileID: 3714503983782827624}
   m_Layer: 0
   m_Name: InterruptorR
   m_TagString: Untagged
@@ -109352,19 +109459,6 @@ MonoBehaviour:
   - {fileID: 47001147967131181}
   - {fileID: 2998195918776077633}
   - {fileID: 8667490164051869725}
---- !u!65 &3714503983782827624
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3714503983782827622}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 27.64104, y: 15.027308, z: 12.347091}
-  m_Center: {x: -4.8800683, y: 4.436155, z: -2.2096753}
 --- !u!23 &3717098550940114041
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -115434,6 +115528,8 @@ GameObject:
   - component: {fileID: 1467510712299067441}
   - component: {fileID: 1590468139872709255}
   - component: {fileID: 1125965485667879973}
+  - component: {fileID: 4769222043722990949}
+  - component: {fileID: 4769222043722990948}
   m_Layer: 0
   m_Name: Cylinder.009
   m_TagString: Untagged
@@ -115441,6 +115537,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!208 &4769222043722990948
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4769222043722990947}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 37.249, y: 1.023, z: 5.782}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 31.271002, y: -0.51600003, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!114 &4769222043722990949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4769222043722990947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f3d82503a2fdc45be879632900a850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOpen: 0
 --- !u!23 &4774466962900891493
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -121590,7 +121715,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOpen: 1
-  speed: 1
 --- !u!208 &6057135082800859146
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -121963,7 +122087,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOpen: 0
-  speed: 0
 --- !u!208 &6108018432245152608
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -123894,6 +124017,7 @@ GameObject:
   - component: {fileID: 5511123609460957406}
   - component: {fileID: 8474120460683481867}
   - component: {fileID: 7587501208756888244}
+  - component: {fileID: 6509185683868346037}
   m_Layer: 0
   m_Name: InterruptorB
   m_TagString: Untagged
@@ -123901,6 +124025,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6509185683868346037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6509185683868346036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23a42494f5e57374cb493754e401c438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doors:
+  - {fileID: 357038452435821348}
+  - {fileID: 1676767478362603795}
+  - {fileID: 4769222043722990947}
 --- !u!23 &6511828863170774424
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -124064,6 +124204,8 @@ GameObject:
   - component: {fileID: 7821225823611495167}
   - component: {fileID: 6985037719517076902}
   - component: {fileID: 3279973803616469634}
+  - component: {fileID: 6527727968350064175}
+  - component: {fileID: 6527727968350064174}
   m_Layer: 0
   m_Name: Cylinder.003
   m_TagString: Untagged
@@ -124071,6 +124213,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!208 &6527727968350064174
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6527727968350064173}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 37.249, y: 1.023, z: 5.782}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 31.271002, y: -0.51600003, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!114 &6527727968350064175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6527727968350064173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f3d82503a2fdc45be879632900a850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOpen: 0
 --- !u!23 &6536278087636941119
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -125295,7 +125466,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 357038452435821348}
   m_LocalRotation: {x: -0.5000001, y: 0.5000001, z: 0.4999999, w: -0.49999988}
-  m_LocalPosition: {x: 144.77658, y: 48.8567, z: -93.96821}
+  m_LocalPosition: {x: 144.77658, y: 49, z: -93.96821}
   m_LocalScale: {x: -0.07898731, y: -0.08267055, z: -0.4874954}
   m_Children: []
   m_Father: {fileID: 275568804}
@@ -130629,6 +130800,8 @@ GameObject:
   - component: {fileID: 1289627241100655301}
   - component: {fileID: 9207448636828134373}
   - component: {fileID: 5286759543272798427}
+  - component: {fileID: 7701762833796528642}
+  - component: {fileID: 7701762833796528641}
   m_Layer: 0
   m_Name: Cylinder.010
   m_TagString: Untagged
@@ -130636,6 +130809,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!208 &7701762833796528641
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7701762833796528640}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 37.249, y: 1.023, z: 5.782}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 31.271002, y: -0.51600003, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!114 &7701762833796528642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7701762833796528640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f3d82503a2fdc45be879632900a850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOpen: 0
 --- !u!1 &7702697438260973183
 GameObject:
   m_ObjectHideFlags: 0
@@ -131288,7 +131490,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6527727968350064173}
   m_LocalRotation: {x: -0.0000000042160826, y: 0.000000004216082, z: -0.7071067, w: 0.7071068}
-  m_LocalPosition: {x: 107.3761, y: 48.8567, z: -78.07207}
+  m_LocalPosition: {x: 107.3761, y: 49, z: -78.07207}
   m_LocalScale: {x: -0.07898729, y: -0.08267053, z: -0.4874954}
   m_Children: []
   m_Father: {fileID: 153926340}
@@ -136323,7 +136525,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOpen: 1
-  speed: 0
 --- !u!208 &8667490164051869727
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -137157,7 +137358,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1237917201290246343}
   m_LocalRotation: {x: -0.0000000042160826, y: 0.000000004216082, z: -0.7071067, w: 0.7071068}
-  m_LocalPosition: {x: 96.134125, y: 48.8567, z: -85.8622}
+  m_LocalPosition: {x: 96.134125, y: 53, z: -85.8622}
   m_LocalScale: {x: -0.07898729, y: -0.08267053, z: -0.4874954}
   m_Children: []
   m_Father: {fileID: 153926340}
@@ -138814,7 +139015,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1676767478362603795}
   m_LocalRotation: {x: -0.5000001, y: 0.5000001, z: 0.4999999, w: -0.49999988}
-  m_LocalPosition: {x: 123.76773, y: 48.8567, z: -93.94335}
+  m_LocalPosition: {x: 123.76773, y: 49, z: -93.94335}
   m_LocalScale: {x: -0.07898731, y: -0.08267055, z: -0.4874954}
   m_Children: []
   m_Father: {fileID: 275568804}
