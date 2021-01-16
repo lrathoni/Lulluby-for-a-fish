@@ -848,26 +848,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bc6eaeae2dbe3f4ea5bed1d28f9a885, type: 3}
---- !u!1 &1337722836 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6682507682525705723, guid: 7015e67026a23bc43bd3281cd7a26f7a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1615683191}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1337722840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1337722836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6990adc057134c389ceace0d575fa84b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxDistance: 4.02
-  maxOffset: 0.404
 --- !u!1 &1439647936
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,30 +915,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1769691947, guid: 7015e67026a23bc43bd3281cd7a26f7a, type: 3}
-      propertyPath: maxDistance
-      value: 5.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1769691953, guid: 7015e67026a23bc43bd3281cd7a26f7a, type: 3}
-      propertyPath: magnetStrength
-      value: 59.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1769691953, guid: 7015e67026a23bc43bd3281cd7a26f7a, type: 3}
-      propertyPath: magnetRelativePos.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1769691953, guid: 7015e67026a23bc43bd3281cd7a26f7a, type: 3}
-      propertyPath: magnetRelativePos.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1769691953, guid: 7015e67026a23bc43bd3281cd7a26f7a, type: 3}
-      propertyPath: magnetRelativePos.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7745780044315182092, guid: 7015e67026a23bc43bd3281cd7a26f7a,
-        type: 3}
-      propertyPath: m_DynamicOccludee
-      value: 0
+    - target: {fileID: 1337722846, guid: 7015e67026a23bc43bd3281cd7a26f7a, type: 3}
+      propertyPath: objectDrag
+      value: 2.2
       objectReference: {fileID: 0}
     - target: {fileID: 8423145099770281699, guid: 7015e67026a23bc43bd3281cd7a26f7a,
         type: 3}
@@ -1020,8 +979,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: hubPrototype
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1769691947, guid: 7015e67026a23bc43bd3281cd7a26f7a, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7015e67026a23bc43bd3281cd7a26f7a, type: 3}
 --- !u!1 &1764089231 stripped
 GameObject:

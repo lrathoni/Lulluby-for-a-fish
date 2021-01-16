@@ -14,6 +14,7 @@ namespace Interaction.Behaviour
         public ENoteColour noteColour;
 
         #endregion
+        
         #region Unity MonoBehaviour events
 
         protected override void Update()

@@ -9,13 +9,13 @@ namespace Interaction.Behaviour
     /// Uses physics to animate. 
     /// </summary>
     [RequireComponent(typeof(Collider))]
-    public class MagnetInteractiveObject : AbstractSingleNoteInteractiveObject
+    public abstract class AbstractMagnetisedInteractiveObject : AbstractSingleNoteInteractiveObject
     {
         #region Serialised data
         
-        public Vector3 magnetRelativePos = new Vector3(0f, 0f, 1f);
-        [Range(0.01f, 100f)] public float magnetStrength = 20f;
-        [Range(0.01f, 100f)] public float magnetDrag = 20f;
+        public Vector3 relativePos = new Vector3(0f, 0f, 1f);
+        [Range(0.01f, 100f)] public float strength = 20f;
+        [Range(0.01f, 50f)] public float objectDrag = 2f;
 
         #endregion
         
@@ -30,41 +30,41 @@ namespace Interaction.Behaviour
         }
 
         #endregion
+
+        #region To resolve
+
+        protected abstract Vector3 GetMagnetVector();
+
+        #endregion
         
         #region AbstractSingleNoteInteractiveObject resolution
 
-        protected override void Activate(MptUnity.Audio.MusicalNote note)
+        protected sealed override void Activate(MptUnity.Audio.MusicalNote note)
         {
-            print("Start.");
             m_previousUseGravity = m_rigidbody.useGravity;
             m_previousDrag = m_rigidbody.drag;
             
             m_rigidbody.useGravity = false;
-            m_rigidbody.drag = magnetDrag;
+            m_rigidbody.drag = objectDrag;
         }
 
-        protected override void Deactivate(MptUnity.Audio.MusicalNote note)
+        protected sealed override void Deactivate(MptUnity.Audio.MusicalNote note)
         {
-            print("Stop!!!");
             m_rigidbody.useGravity = m_previousUseGravity;
             m_rigidbody.drag = m_previousDrag;
         }
 
-        protected override void FixedUpdateActive()
+        protected sealed override void FixedUpdateActive()
         {
-            // Vector from magnet to object.
-            Transform playerTrans = flutePlayer.GetFluteTransform();
+            Vector3 magnetVec = GetMagnetVector();
 
-            Vector3 localMagnetPos = playerTrans.localPosition + magnetRelativePos;
-            Vector3 vec = playerTrans.TransformPoint(localMagnetPos) - transform.position;
-
-            float r = vec.magnitude;
-            float amp = magnetStrength;
+            float r = magnetVec.magnitude;
+            float amp = strength;
             // smoothing things over, so that the magnet's position is a resting position.
             amp *= r >= 1f
                 ? 1f / (r * r)
                 : r;
-            m_rigidbody.AddForce(vec.normalized * (Time.smoothDeltaTime * amp), ForceMode.Impulse);
+            m_rigidbody.AddForce(magnetVec.normalized * (Time.smoothDeltaTime * amp), ForceMode.Impulse);
             
         }
 

@@ -364,8 +364,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noteColour: 2
-  hoverDir: {x: 0, y: 1, z: 0}
-  hoverStrength: 3.01
+  relativePos: {x: 0, y: 1, z: 0}
+  strength: 20
+  objectDrag: 2
 --- !u!114 &73430030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6722,9 +6723,9 @@ GameObject:
   - component: {fileID: 160631814647468433}
   - component: {fileID: 6759723749018384921}
   - component: {fileID: 1769691952}
-  - component: {fileID: 1769691947}
-  - component: {fileID: 1769691953}
   - component: {fileID: 1525801608625858956}
+  - component: {fileID: 1337722840}
+  - component: {fileID: 1337722846}
   m_Layer: 0
   m_Name: Bucket
   m_TagString: Untagged
@@ -6764,7 +6765,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -6838,34 +6839,6 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 1
   m_AffectedAgents: ffffffff
---- !u!114 &1769691947
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6682507682525705723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6221a56c3ce949408b82c31fbbe3e7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxDistance: 7.85
---- !u!114 &1769691953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6682507682525705723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7af0070ca2e41988a1a0df5ca151e7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  noteColour: 0
-  magnetRelativePos: {x: 0, y: 1, z: 1}
-  magnetStrength: 3.75
 --- !u!114 &1525801608625858956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6880,6 +6853,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noteColour: 0
   activateIntensity: 3.2
+--- !u!114 &1337722840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682507682525705723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6990adc057134c389ceace0d575fa84b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 4.02
+  maxOffset: 0.404
+--- !u!114 &1337722846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682507682525705723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dac36d91fe62417e9f3d0f9687d04d01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteColour: 0
+  relativePos: {x: 0.5, y: 1.5, z: 1}
+  strength: 20
+  objectDrag: 9.9
 --- !u!1 &6687965393428858871
 GameObject:
   m_ObjectHideFlags: 0
@@ -8666,8 +8669,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noteColour: 1
-  hoverDir: {x: 0, y: 1, z: 0}
-  hoverStrength: 3.01
+  relativePos: {x: 0, y: 1, z: 0}
+  strength: 20
+  objectDrag: 2
 --- !u!114 &1412859413
 MonoBehaviour:
   m_ObjectHideFlags: 0

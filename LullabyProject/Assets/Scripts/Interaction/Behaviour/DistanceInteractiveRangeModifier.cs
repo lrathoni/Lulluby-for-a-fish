@@ -1,12 +1,11 @@
 
 using UnityEngine;
 
-using MptUnity.Audio;
 using IO.Behaviour;
 
 namespace Interaction.Behaviour
 {
-    public class DistanceRangeModifier : AbstractInteractiveRangeModifier
+    public class DistanceInteractiveRangeModifier : AbstractInteractiveRangeModifier
     {
         #region Serialised data
 
@@ -14,6 +13,7 @@ namespace Interaction.Behaviour
         public float maxDistance;
         
         #endregion
+        
         #region AbstractInteractiveRangeModifier resolution
 
         public override bool IsInRange(FlutePlayer flutePlayer)

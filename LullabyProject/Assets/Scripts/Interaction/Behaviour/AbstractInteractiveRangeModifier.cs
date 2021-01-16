@@ -1,7 +1,5 @@
 using IO.Behaviour;
 
-using MptUnity.Audio;
-
 namespace Interaction.Behaviour
 {
     /// <summary>

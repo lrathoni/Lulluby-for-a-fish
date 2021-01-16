@@ -2,12 +2,11 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-using MptUnity.Audio;
 using IO.Behaviour;
 
 namespace Interaction.Behaviour
 {
-    public class ViewRangeModifier : AbstractInteractiveRangeModifier
+    public class ViewInteractiveRangeModifier : AbstractInteractiveRangeModifier
     {
         #region Serialised data
 

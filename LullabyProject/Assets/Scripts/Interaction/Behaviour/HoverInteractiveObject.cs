@@ -1,8 +1,5 @@
 
 using UnityEngine;
-using UnityEngine.Assertions;
-
-using MptUnity.Audio;
 
 namespace Interaction.Behaviour
 {
@@ -11,51 +8,41 @@ namespace Interaction.Behaviour
     /// Uses physics to animate. 
     /// </summary>
     [RequireComponent(typeof(Collider))]
-    public class HoverInteractiveObject : AbstractSingleNoteInteractiveObject
+    public class HoverInteractiveObject : AbstractMagnetisedInteractiveObject
     {
+        #region AbstractMagnetisedInteractiveObject
 
-        #region Serialised data
-
-        public Vector3 hoverDir = Vector3.up;
-        [Range(0.1f, 10.0f)]
-        public float   hoverStrength = 3.0f;
-
-        #endregion
-        
-        #region Unity Monobehaviour events
-        
         protected override void Start()
         {
             base.Start();
 
-            m_rigidbody = GetComponent<Rigidbody>();
-            Assert.IsNotNull(m_rigidbody);
+            m_startingHeight = GetCurrentHeight();
+        }
 
-            hoverDir = hoverDir.normalized;
-            
+        protected override Vector3 GetMagnetVector()
+        {
+            return relativePos * (GetTargetHeight() - GetCurrentHeight());
         }
 
         #endregion
-        
-        #region AbstractSingleNoteInteractiveObject resolution
 
-        protected override void Activate(MusicalNote note)
+        #region Private utility
+
+        float GetCurrentHeight()
         {
-            m_rigidbody.useGravity = false;
-            m_rigidbody.AddForce(hoverDir * hoverStrength, ForceMode.Force);
+            return Vector3.Dot(transform.position, relativePos.normalized);
         }
 
-        protected override void Deactivate(MusicalNote note)
+        float GetTargetHeight()
         {
-            m_rigidbody.useGravity = true;
-            m_rigidbody.AddForce(hoverDir * - hoverStrength, ForceMode.Force);
+            return relativePos.magnitude;
         }
-        
+
         #endregion
         
         #region Private data
 
-        Rigidbody m_rigidbody;
+        float m_startingHeight;
 
         #endregion
     }
