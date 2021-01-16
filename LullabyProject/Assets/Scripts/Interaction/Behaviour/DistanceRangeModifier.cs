@@ -16,9 +16,9 @@ namespace Interaction.Behaviour
         #endregion
         #region AbstractInteractiveRangeModifier resolution
 
-        public override bool IsInRange(FlutePlayer flutePlayer, MusicalNote note)
+        public override bool IsInRange(FlutePlayer flutePlayer)
         {
-            return (flutePlayer.transform.position - gameObject.transform.position).magnitude <= maxDistance;
+            return Vector3.Distance(flutePlayer.transform.position, transform.position) <= maxDistance;
         }
 
         #endregion

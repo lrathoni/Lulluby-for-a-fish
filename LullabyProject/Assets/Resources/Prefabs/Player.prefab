@@ -47,10 +47,6 @@ MonoBehaviour:
   instrumentSourceObject: {fileID: 7972827416313533024}
   keys: 7900000075000000690000006f00000070000000
   tones: 3200000035000000390000003b0000003e000000
-  delayStart: 0.5
-  delaySwitch: 0
-  delayStop: 0.2
-  delayRest: 1
   volume: 1
 --- !u!95 &3685714963698705227
 Animator:
@@ -96,13 +92,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5143993041540502368}
   m_LocalRotation: {x: -0, y: -0.63311976, z: -0, w: 0.77405393}
-  m_LocalPosition: {x: 0.414, y: 0.6, z: 0.326}
+  m_LocalPosition: {x: 0.414, y: -0.100000024, z: 0.22600001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3076474757104560138}
   - {fileID: 5702653602756455180}
-  m_Father: {fileID: 6911963932344521612}
-  m_RootOrder: 1
+  m_Father: {fileID: 5618410618295276329}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -78.561005, z: 0}
 --- !u!114 &8828038885742261236
 MonoBehaviour:
@@ -155,7 +151,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 7330532984647153674}
   m_Father: {fileID: 289585217800964029}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -287,7 +284,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 289585217800964029}
-  - {fileID: 7330532984647153674}
   m_Father: {fileID: 6911963932584567208}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

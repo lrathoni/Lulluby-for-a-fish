@@ -41,14 +41,12 @@ namespace Interaction.Behaviour
 
         protected override void Activate(MusicalNote note)
         {
-            print($"Started: {note.tone}");
             m_rigidbody.useGravity = false;
             m_rigidbody.AddForce(hoverDir * hoverStrength, ForceMode.Force);
         }
 
         protected override void Deactivate(MusicalNote note)
         {
-            print($"Stopped: {note.tone}"); 
             m_rigidbody.useGravity = true;
             m_rigidbody.AddForce(hoverDir * - hoverStrength, ForceMode.Force);
         }

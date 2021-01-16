@@ -52,6 +52,15 @@ namespace IO.Behaviour
         
         #endregion
 
+        #region Public utility
+
+        public Transform GetFluteTransform()
+        {
+            return instrumentSourceObject.transform;
+        }
+
+        #endregion
+
         #region Unity MonoBehaviour events
 
         void Awake()
@@ -176,7 +185,7 @@ namespace IO.Behaviour
         void SetupPauseMenu()
         {
             
-            var gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
+            var gameManagerObject = GameObject.FindGameObjectWithTag(Utility.Tags.c_gameManagerTag);
             Assert.IsNotNull(gameManagerObject);
             m_pauseMenu = gameManagerObject.GetComponent<PauseMenu>();
             Assert.IsNotNull(m_pauseMenu);

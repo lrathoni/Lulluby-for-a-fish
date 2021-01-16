@@ -11,7 +11,7 @@ namespace Interaction.Behaviour
     {
         #region To resolve
 
-        public abstract bool IsInRange(FlutePlayer flutePlayer, MusicalNote note);
+        public abstract bool IsInRange(FlutePlayer flutePlayer);
 
         #endregion
     }

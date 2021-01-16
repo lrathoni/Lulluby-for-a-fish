@@ -16,13 +16,11 @@ namespace IO.Behaviour
 
         #region MonoBehaviour events
 
-        
-
         void Start()
         {
             m_eulerAngles = transform.localEulerAngles;
 
-            var gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
+            var gameManagerObject = GameObject.FindGameObjectWithTag(Utility.Tags.c_gameManagerTag);
             Assert.IsNotNull(gameManagerObject);
             m_pauseMenu = gameManagerObject.GetComponent<PauseMenu>();
             Assert.IsNotNull(m_pauseMenu);
@@ -63,11 +61,11 @@ namespace IO.Behaviour
         
         #endregion
 
-        #region Miscellaneous events
+        #region Pause menu events
         
         void OnPauseMenu(bool isPaused)
         {
-            this.enabled = !isPaused;
+            enabled = !isPaused;
         }
 
         void Subscribe()
@@ -108,7 +106,7 @@ namespace IO.Behaviour
         bool m_previousVisibility;
 
         Vector3 m_eulerAngles;
-        
+
         #endregion
 
     }

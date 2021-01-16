@@ -26,19 +26,21 @@ namespace Interaction.Behaviour
         }
 
         #endregion
+        
         #region AbstractInteractiveRangeModifier resolution
 
-        public override bool IsInRange(FlutePlayer flutePlayer, MusicalNote note)
+        public override bool IsInRange(FlutePlayer flutePlayer)
         {
             // is not null, assert!
             Transform camTrans = m_cam.transform;
+            Vector3 pos = transform.position;
 
-            Vector3 vec = gameObject.transform.position - camTrans.position;
+            Vector3 vec = pos - camTrans.position;
             
             // first check that it is in bounds
             // The offset is the projection of the vector on the camera surface
             // normalise it wrt. screen dimension
-            Vector3 proj = m_cam.WorldToViewportPoint(gameObject.transform.position);
+            Vector3 proj = m_cam.WorldToViewportPoint(pos);
             Vector2 screenVecProj = new Vector2(proj.x - 0.5f, proj.y - 0.5f);
             
             if (proj.z < 0 || screenVecProj.magnitude > maxOffset)
