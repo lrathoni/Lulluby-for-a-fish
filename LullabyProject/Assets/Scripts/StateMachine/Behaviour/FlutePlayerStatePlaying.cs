@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using MptUnity.Audio;
+using Music;
 
 namespace StateMachine.Behaviour
 {
@@ -13,6 +14,10 @@ namespace StateMachine.Behaviour
             // Resetting the corresponding trigger.
             animator.ResetTrigger("TNoteStarted");
             
+            owner.StopAllPlayingNotes();
+
+            ENoteColour colour = (ENoteColour) animator.GetInteger("NoteColour");
+            
             m_note = new MusicalNote(
                 animator.GetInteger("NoteTone"),
                 animator.GetFloat("NoteVolume")
@@ -20,13 +25,7 @@ namespace StateMachine.Behaviour
             // Debug.Log($"Start {colour}");
             owner.PlayNote(colour, m_note);
         }
-
-        protected override void OnStateExitInternal()
-        {
-            // Debug.Log($"Stop {colour}");
-            owner.StopNote(colour);
-        }
-
+        
         #endregion
 
         #region Private data

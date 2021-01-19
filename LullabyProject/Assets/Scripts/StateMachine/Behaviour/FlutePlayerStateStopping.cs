@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using Music;
 
 namespace StateMachine.Behaviour
 {
 
-    public class FlutePlayerStateStopped : AbstractFlutePlayerState
+    public class FlutePlayerStateStopping : AbstractFlutePlayerState
     {
         #region AbstractFlutePlayerState resolution
 
@@ -11,6 +12,9 @@ namespace StateMachine.Behaviour
         {
             // Resetting the corresponding trigger.
             animator.ResetTrigger("TNoteStopped");
+
+            // Debug.Log($"Stop {colour}");
+            owner.StopAllPlayingNotPressedNotes();
         }
 
         #endregion

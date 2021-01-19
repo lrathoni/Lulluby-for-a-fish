@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
@@ -138,6 +140,8 @@ namespace IO.Behaviour
             // Triggering the transition to the Playing state!
             m_animator.ResetTrigger("TNoteStopped");
             m_animator.SetTrigger("TNoteStarted");
+            
+            m_pressedColours.Add(colour);
         }
 
         void TriggerNoteStop(ENoteColour colour)
@@ -146,7 +150,8 @@ namespace IO.Behaviour
             // Triggering the transition to the Stopped state!
             m_animator.ResetTrigger("TNoteStarted");
             m_animator.SetTrigger("TNoteStopped");
-           
+
+            m_pressedColours.Remove(colour);
         }
         /// <summary>
         /// 
@@ -160,7 +165,7 @@ namespace IO.Behaviour
             bool success = m_instrumentSource.StopNote(voice);
             if (success)
             {
-                SetPlayingVoice(colour, -1);
+                UnsetPlayingVoice(colour);
                 m_events.playerNoteStopEvent.Invoke(colour, note);
             }
             return success;
@@ -178,6 +183,30 @@ namespace IO.Behaviour
             return success;
         }
 
+        public void StopAllPlayingNotPressedNotes()
+        {
+            for (int i = 0; i < m_playingColours.Count; ++i)
+            {
+                ENoteColour colour = m_playingColours[i];
+                if (!m_pressedColours.Contains(colour) && StopNote(colour))
+                {
+                    --i;
+                }
+            }
+        }
+
+        public void StopAllPlayingNotes()
+        {
+            for (int i = 0; i < m_playingColours.Count; ++i)
+            {
+                ENoteColour colour = m_playingColours[i];
+                if (!StopNote(colour))
+                {
+                    --i;
+                }
+            }
+        }
+        
         #endregion
 
         #region Pause Menu stuff
@@ -229,6 +258,8 @@ namespace IO.Behaviour
         {
             m_instrumentSource = instrumentSourceObject.GetComponent<IInstrumentSource>();
             m_playingVoices = new int[NoteColours.GetNumber()];
+            m_playingColours = new List<ENoteColour>();
+            m_pressedColours = new List<ENoteColour>();
             for (int i = 0; i < m_playingVoices.Length; ++i)
             {
                 m_playingVoices[i] = -1;
@@ -249,6 +280,14 @@ namespace IO.Behaviour
         void SetPlayingVoice(ENoteColour colour, int voice)
         {
             m_playingVoices[(int) colour] = voice;
+            m_playingColours.Add(colour);
+        }
+
+        void UnsetPlayingVoice(ENoteColour colour)
+        {
+            
+            m_playingVoices[(int) colour] = -1;
+            m_playingColours.Remove(colour);
         }
         
 
@@ -321,7 +360,9 @@ namespace IO.Behaviour
         AbstractFlutePlayerState m_state;
         
         int[] m_playingVoices;
-        
+        List<ENoteColour> m_playingColours;
+        List<ENoteColour> m_pressedColours;
+
         Events m_events;
         Animator m_animator;
         PauseMenu m_pauseMenu;

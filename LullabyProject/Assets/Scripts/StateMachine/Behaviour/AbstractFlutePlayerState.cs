@@ -27,7 +27,6 @@ namespace StateMachine.Behaviour
         {
             // Passing up the note colour info from the flute player.
             // Basically circumventing the lack of a constructor.
-            colour = (ENoteColour) animator.GetInteger("NoteColour");
             OnStateEnterInternal(animator);
             owner.SignalStateEnterEvent(this);
         }
@@ -41,7 +40,6 @@ namespace StateMachine.Behaviour
 
         #endregion
 
-
         #region To resolve
 
         // IMPORTANT: Do not call it OnStateEnter, OnStateExit or it will mess with polymorphism.
@@ -54,7 +52,6 @@ namespace StateMachine.Behaviour
         #region Private data
 
         protected FlutePlayer owner;
-        protected ENoteColour colour;
 
         #endregion
 
