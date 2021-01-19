@@ -1,63 +1,104 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Assertions;
-using IO.Behaviour;
 
-public class PauseMenu : MonoBehaviour
+using UnityEngine.Events;
+
+namespace Menu 
 {
-    public GameObject pauseMenu;
-
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// 
+    /// </summary>
+    public class OnPauseMenuEvent : UnityEvent<bool> { }
+    public class PauseMenu : MonoBehaviour
     {
-        var cam = Camera.main;
-        Assert.IsNotNull(cam);
-        m_camLook = cam.GetComponent<CamLookMouse>();
-        Assert.IsNotNull(m_camLook);
-        Assert.IsNotNull(pauseMenu);
-        pauseMenu.SetActive(false);
-    }
+        #region Serialised data
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        public GameObject pauseMenu;
+
+        #endregion
+
+        #region MonoBehaviour events
+
+        void Awake()
         {
-            if(m_pausedActive) 
+            m_events = new Events();
+        }
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            Assert.IsNotNull(pauseMenu);
+
+            PauseGame(false);
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                ResumeGame();
-            }
-            else
+                PauseGame(!m_isPaused);
+            }  
+        }
+        
+        #endregion
+
+        #region Utility
+
+        public void PauseGame(bool pause) 
+        {
+            pauseMenu.SetActive(pause);
+            Time.timeScale = pause ? 0f : 1f;
+            m_isPaused = pause;
+            
+            m_events.onPauseMenuEvent.Invoke(pause);
+        }
+
+        public bool IsPaused()
+        {
+            return m_isPaused;
+        }
+        
+
+        public void ReturnToMainMenu() 
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+
+        #endregion
+
+        #region Events
+
+        class Events
+        {
+            public readonly OnPauseMenuEvent onPauseMenuEvent;
+
+            public Events()
             {
-                PauseGame();
+               onPauseMenuEvent = new OnPauseMenuEvent();
             }
-        }  
+        }
+
+        public void AddOnPauseMenuListener(UnityAction<bool> onPauseMenu)
+        {
+            m_events.onPauseMenuEvent.AddListener(onPauseMenu);
+        }
+        
+        public void RemoveOnPauseMenuListener(UnityAction<bool> onPauseMenu)
+        {
+            m_events.onPauseMenuEvent.RemoveListener(onPauseMenu);
+        }
+
+        #endregion
+
+        #region Private data
+
+        bool m_isPaused;
+
+        Events m_events;
+
+        #endregion
     }
 
-    public void PauseGame() 
-    {
-        m_camLook.enabled = false;
-        pauseMenu.SetActive(true);
-        Time.timeScale = 0f;
-        m_pausedActive = true;
-    }
-
-    public void ResumeGame() 
-    {
-        m_camLook.enabled = true;
-        Time.timeScale = 1f;
-        m_pausedActive = false;
-        pauseMenu.SetActive(false);
-    }
-
-    public void ReturnToMainMenu() {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
-    }
-
-
-    CamLookMouse m_camLook;
-    bool m_pausedActive;
 }

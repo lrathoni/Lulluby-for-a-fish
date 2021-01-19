@@ -14,11 +14,34 @@ namespace Interaction.Behaviour
         public ENoteColour noteColour;
 
         #endregion
-        #region To resolve
-
         
-        protected abstract void Activate(MusicalNote note);
-        protected abstract void Deactivate(MusicalNote note);
+        #region Unity MonoBehaviour events
+
+        protected override void Update()
+        {
+            base.Update();
+            if (m_isActive)
+            {
+                UpdateActive();
+            }
+        }
+
+        void FixedUpdate()
+        {
+            if (m_isActive)
+            {
+                FixedUpdateActive();
+            }
+        }
+
+        #endregion
+        #region To resolve
+        
+        protected virtual void Activate(MusicalNote note) { }
+        protected virtual void Deactivate(MusicalNote note) { }
+
+        protected virtual void UpdateActive() { }
+        protected virtual void FixedUpdateActive() { }
 
         #endregion
         #region AbstractMusicInteractiveObject resolution
@@ -28,6 +51,7 @@ namespace Interaction.Behaviour
             if (aNoteColour == noteColour)
             {
                 Activate(note);
+                m_isActive = true;
             }
         }
 
@@ -36,8 +60,14 @@ namespace Interaction.Behaviour
             if (aNoteColour == noteColour)
             {
                 Deactivate(note);
+                m_isActive = false;
             }
         }
+
+        #endregion
+        #region Private data
+
+        bool m_isActive;
 
         #endregion
     }

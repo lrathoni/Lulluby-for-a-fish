@@ -10,7 +10,7 @@ namespace MptUnity.Audio.Behaviour
     public class BpmChangeEvent : UnityEvent<double> { }
     public class MuteSectionChangeEvent : UnityEvent<MusicSection, bool> { }
     
-    public interface IJukebox : IPlayable, IMusicSource
+    public interface IJukebox : IAudioSource, IMusicSource
     {
 
         int NumberSections { get;  }

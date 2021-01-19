@@ -12,7 +12,7 @@ namespace MptUnity.Audio.Behaviour
     /// </summary>
     public class OnInstrumentNoteStopEvent : UnityEvent<MusicalNote> { }
     
-    public interface IInstrumentSource : IMusicSource // todo: add IPlayable
+    public interface IInstrumentSource : IAudioSource, IMusicSource // todo: add IPlayable
     {
         #region Playing
         bool StopNote(int voice);
@@ -22,10 +22,10 @@ namespace MptUnity.Audio.Behaviour
         /// </summary>
         /// <param name="note"></param>
         /// <returns>voice of the note, -1 on failure. </returns>
-        int PlayNote(MusicalNote note);
+        int StartNote(MusicalNote note);
 
         bool CanStop(int voice);
-        bool CanPlay(MusicalNote note);
+        bool CanStart(MusicalNote note);
 
         int NumberVoices { get; set; }
 
@@ -36,7 +36,14 @@ namespace MptUnity.Audio.Behaviour
         int GetSpeed();
 
         int GetCurrentRow();
+        /// <summary>
+        /// Get note currently playing at voice.
+        /// </summary>
+        /// <param name="voice">In [0, numberVoice-1]</param>
+        /// <returns></returns>
         MusicalNote GetNote(int voice);
+
+        int GetNumberVoices();
         #endregion
 
         #region Events
