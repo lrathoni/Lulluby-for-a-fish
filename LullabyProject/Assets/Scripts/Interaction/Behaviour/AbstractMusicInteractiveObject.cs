@@ -30,8 +30,8 @@ namespace Interaction.Behaviour
         /// </remarks>
         protected virtual void Start()
         {
-            var userInterfaceObject = GameObject.FindGameObjectWithTag(Utility.Tags.c_userInterfaceTag);
-            Assert.IsNotNull(userInterfaceObject, "UserInterface object was not found in Scene when starting!");
+            var userInterfaceObject = GameObject.FindGameObjectWithTag(Utility.Tags.c_flutePlayerTag);
+            Assert.IsNotNull(userInterfaceObject, "FlutePlayer object was not found in Scene when starting!");
             flutePlayer = userInterfaceObject.GetComponent<FlutePlayer>();
             Assert.IsNotNull(flutePlayer);
 
