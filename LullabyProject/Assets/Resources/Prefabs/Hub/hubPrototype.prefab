@@ -251,6 +251,9 @@ GameObject:
   - component: {fileID: 3728963131220727327}
   - component: {fileID: 1577403568712050292}
   - component: {fileID: 6658447278059685383}
+  - component: {fileID: 73430030}
+  - component: {fileID: 73430035}
+  - component: {fileID: 73430036}
   m_Layer: 0
   m_Name: Fish
   m_TagString: Untagged
@@ -361,9 +364,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noteColour: 2
-  activateIntensity: 6.49
-  hoverDir: {x: 0, y: 1, z: 0}
-  hoverStrength: 2.77
+  relativePos: {x: 0, y: 1, z: 0}
+  strength: 20
+  objectDrag: 2
+--- !u!114 &73430030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271516406028641957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6990adc057134c389ceace0d575fa84b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 3.8
+  maxOffset: 0.419
+--- !u!114 &73430035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271516406028641957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_IgnoreFromBuild: 1
+  m_AffectedAgents: ffffffff
+--- !u!114 &73430036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271516406028641957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f6f73aa5894ebdae9af3f72fe2a191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteColour: 2
+  activateIntensity: 5.41
 --- !u!1 &417413647188741350
 GameObject:
   m_ObjectHideFlags: 0
@@ -6675,7 +6722,10 @@ GameObject:
   - component: {fileID: 7745780044315182092}
   - component: {fileID: 160631814647468433}
   - component: {fileID: 6759723749018384921}
-  - component: {fileID: 8341843760712423111}
+  - component: {fileID: 1769691952}
+  - component: {fileID: 1525801608625858956}
+  - component: {fileID: 1337722840}
+  - component: {fileID: 1337722846}
   m_Layer: 0
   m_Name: Bucket
   m_TagString: Untagged
@@ -6715,7 +6765,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -6773,7 +6823,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8341843760712423111
+--- !u!114 &1769691952
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6782,13 +6832,57 @@ MonoBehaviour:
   m_GameObject: {fileID: 6682507682525705723}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 256ba40e4edc4e42bc99c19b23445b86, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_IgnoreFromBuild: 1
+  m_AffectedAgents: ffffffff
+--- !u!114 &1525801608625858956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682507682525705723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f6f73aa5894ebdae9af3f72fe2a191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   noteColour: 0
-  activateIntensity: 5.95
-  hoverDir: {x: 0, y: 1, z: 0}
-  hoverStrength: 3.42
+  activateIntensity: 3.2
+--- !u!114 &1337722840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682507682525705723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6990adc057134c389ceace0d575fa84b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 4.02
+  maxOffset: 0.404
+--- !u!114 &1337722846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682507682525705723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dac36d91fe62417e9f3d0f9687d04d01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteColour: 0
+  relativePos: {x: 0.5, y: 1.5, z: 1}
+  strength: 20
+  objectDrag: 2.2
 --- !u!1 &6687965393428858871
 GameObject:
   m_ObjectHideFlags: 0
@@ -8462,6 +8556,9 @@ GameObject:
   - component: {fileID: 5245620463580903549}
   - component: {fileID: 9017832910091253112}
   - component: {fileID: 5851326926840548819}
+  - component: {fileID: 1412859413}
+  - component: {fileID: 1412859418}
+  - component: {fileID: 1412859419}
   m_Layer: 0
   m_Name: Chair
   m_TagString: Untagged
@@ -8572,9 +8669,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noteColour: 1
-  activateIntensity: 2.52
-  hoverDir: {x: 0, y: 1, z: 0}
-  hoverStrength: 3.62
+  relativePos: {x: 0, y: 1, z: 0}
+  strength: 20
+  objectDrag: 2
+--- !u!114 &1412859413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8711051459914787692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6990adc057134c389ceace0d575fa84b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 3.8
+  maxOffset: 0.419
+--- !u!114 &1412859418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8711051459914787692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_IgnoreFromBuild: 1
+  m_AffectedAgents: ffffffff
+--- !u!114 &1412859419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8711051459914787692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f6f73aa5894ebdae9af3f72fe2a191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteColour: 1
+  activateIntensity: 5.41
 --- !u!1 &8756919493168300104
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,103 +1,48 @@
 
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace Interaction.Behaviour
 {
     /// <summary>
-    /// An interactive object that hovers and lights up when activated.
-    /// Uses physics to animate and lighting.
+    /// An interactive object that hovers when activated.
+    /// Uses physics to animate. 
     /// </summary>
-    [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(Collider))]
-    public class HoverInteractiveObject : AbstractSingleNoteInteractiveObject
+    public class HoverInteractiveObject : AbstractMagnetisedInteractiveObject
     {
+        #region AbstractMagnetisedInteractiveObject
 
-        #region Serialised data
-
-        [Range(0.1f, 10.0f)]
-        public float activateIntensity = 3.0f;
-
-        public Vector3 hoverDir = Vector3.up;
-        [Range(0.1f, 10.0f)]
-        public float   hoverStrength = 3.0f;
-
-        #endregion
-        #region Unity Monobehaviour events
-        
         protected override void Start()
         {
             base.Start();
-            SetupLight();
 
-
-            m_rigidbody = GetComponent<Rigidbody>();
-            Assert.IsNotNull(m_rigidbody);
-
-            hoverDir = hoverDir.normalized;
-            
-            Deactivate();
+            m_startingHeight = GetCurrentHeight();
         }
 
-        void Update()
+        protected override Vector3 GetMagnetVector()
         {
-            if (m_isActive)
-            {
-                
-            }
+            return relativePos * (GetTargetHeight() - GetCurrentHeight());
         }
 
         #endregion
-        #region AbstractSingleNoteInteractiveObject
 
-        protected override void Activate(MptUnity.Audio.MusicalNote note)
-        {
-            Activate();
-        }
-
-        protected override void Deactivate(MptUnity.Audio.MusicalNote note)
-        {
-            Deactivate();
-        }
-        
-        #endregion
         #region Private utility
 
-        void SetupLight()
+        float GetCurrentHeight()
         {
-            m_light = gameObject.AddComponent<Light>();
-            m_light.color = Music.NoteColours.GetColour(noteColour);
+            return Vector3.Dot(transform.position, relativePos.normalized);
         }
 
-        void Activate()
+        float GetTargetHeight()
         {
-            m_light.intensity = activateIntensity;
-            
-            m_rigidbody.AddForce(hoverDir * hoverStrength, ForceMode.Impulse);
-
-            m_rigidbody.useGravity = false;
-
-            m_isActive = true;
-        }
-
-        void Deactivate()
-        {
-            m_light.intensity = 0.0f;
-            
-            m_rigidbody.useGravity = true;
-            
-            m_rigidbody.AddForce(- hoverDir * hoverStrength, ForceMode.Impulse);
-
-            m_isActive = false;
+            return relativePos.magnitude;
         }
 
         #endregion
+        
         #region Private data
 
-        Rigidbody m_rigidbody;
-        Light m_light;
-
-        bool m_isActive;
+        float m_startingHeight;
 
         #endregion
     }

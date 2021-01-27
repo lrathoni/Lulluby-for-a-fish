@@ -848,8 +848,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6674997993141940666, guid: ab183d938be3bdc478b5153c94115aa9,
           type: 3}
-        m_MethodName: ResumeGame
-        m_Mode: 1
+        m_MethodName: PauseGame
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
